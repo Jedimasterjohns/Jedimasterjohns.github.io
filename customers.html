@@ -1,0 +1,153 @@
+<html>
+<head>
+<title>Customers</title>
+<link href="style.css" rel="stylesheet" type="text/css" />
+<script language="JavaScript">
+		function showform(dowhat) {
+			/*
+			* four DIVS: browse, insert, update, delete
+			* this function sets one visible the others not
+			*/
+			if (dowhat == 'insert'){
+				document.getElementById('browse').style.display = 'none';
+				document.getElementById('insert').style.display = 'block';
+				document.getElementById('update').style.display = 'none';
+				document.getElementById('delete').style.display = 'none';
+			}
+			else if (dowhat == 'update'){
+				document.getElementById('browse').style.display = 'none';
+				document.getElementById('insert').style.display = 'none';
+				document.getElementById('update').style.display = 'block';
+				document.getElementById('delete').style.display = 'none';
+			}
+			else if (dowhat == 'delete'){
+				document.getElementById('browse').style.display = 'none';
+				document.getElementById('insert').style.display = 'none';
+				document.getElementById('update').style.display = 'none';
+				document.getElementById('delete').style.display = 'block';
+			}
+      else if (dowhat == 'all'){
+				document.getElementById('browse').style.display = 'block';
+				document.getElementById('insert').style.display = 'block';
+				document.getElementById('update').style.display = 'block';
+				document.getElementById('delete').style.display = 'block';
+			}
+			else { //by default display browse
+				document.getElementById('browse').style.display = 'block';
+				document.getElementById('insert').style.display = 'none';
+				document.getElementById('update').style.display = 'none';
+				document.getElementById('delete').style.display = 'none';
+			}
+		}
+    function newCustomer() { showform('insert'); }
+    function updateCustomer(pid) { showform('update'); }
+    function deleteCustomer(pid) { showform ('delete'); }
+    function browseCustomers() { showform ('browse'); }
+    function showAll() { showform ('all'); }
+</script>
+</head>
+
+<body onload="browseCustomers()">
+<h1>Customer</h1>
+
+[ <a href="orders.html">Orders</a> | <a href="customers.html">Customers</a> | <a href="donuts.html">Donuts</a> | <a href="stores.html">Stores</a> | <a href="suppliers.html">Suppliers</a> ]
+
+<div id="browse">
+<p><a href="#" onClick="showAll()">Display all forms</a> </p>
+<table border="1" cellpadding="5">
+  <tr>
+    <th><a href="#" onClick="newCustomer()">New</a></th>
+    <th></th>
+    <th>ID</th>
+    <th>Name</th>
+    <th>Email</th>
+    <th>Address</th>
+    <th>Planet</th>
+  </tr>
+  <tr>
+    <td><a href="#" onClick="updateCustomer('this.CustomerID')">Edit</a></td>
+    <td><a href="#" onclick="deleteCustomer('this.CustomerID')">Delete</a></td>
+    <td align="right" >1</td>
+    <td >Bob Jones</td>
+    <td align="right" >example1@gmail.com</td>
+    <td>1000 W Ave, Smallville UT 84123</td>
+    <td>Earth</td>
+  </tr>
+  <tr>
+    <td><a href="#" onClick="updateCustomer('this.CustomerID')">Edit</a></td>
+    <td><a href="#" onclick="deleteCustomer('this.CustomerID')">Delete</a></td>
+    <td align="right" >2</td>
+    <td>Jane Doe</td>
+    <td align="right" >example2@gmail.com</td>
+    <td >1000 E Ave, Biggville, WA 98074</td>
+    <td>Venus</td>
+  </tr>
+  <tr>
+    <td><a href="#" onClick="updateCustomer('this.CustomerID')">Edit</a></td>
+    <td><a href="#" onclick="deleteCustomer('this.CustomerID')">Delete</a></td>
+    <td>3</td>
+    <td>Bob Dylan</td>
+    <td align="right" >example3@gmail.com</td>
+    <td>1000 S Ave, Biggville, WA 98074</td>
+    <td><em>Mars</em></td>
+  </tr>
+</table>
+<p>&nbsp;</p>
+</div> <!-- browse -->
+<div id="insert">
+    <form method="POST" id="addPlanet">
+        <legend><strong>Add Customer</strong></legend>
+          <fieldset class="fields">
+            <label> Name </label> <input type="text" name="name">
+            <label> Email </label> <input type="text" name="email">
+            <label> Address </label> <input type="text" name="address">
+            <label> Planet </label> <select name="planet">
+            	<option value="0">&nbsp;</option>
+                <option value="1">Earth</option>
+                <option value="2">Mars</option>
+                <option value="3">Venus</option>
+                </select>
+      </fieldset>
+          <input class="btn" type="submit" id="addCustomer" value="Add Customer">
+          <input class="btn" type="button" value="cancel" onClick="browseCustomers()">
+	</form> 
+</div><!-- insert -->
+<p>&nbsp;</p>
+<div id="update">
+    <form method="POST" id="UpdateCustomer">
+        <legend><strong>Update Customer</strong></legend>
+          <fieldset class="fields">
+          <input type="hidden" name="CustomerID" id="updateCustomerID" value="1">
+          <label> ID: </label> 1
+            <label> Name </label> <input type="text" name="name" value="Bob Jones">
+            <label> Email </label> <input type="text" name="email" value="example1@gmail.com">
+            <label> Address </label> <input type="text" name="address" value="1000 W Ave, Smallville UT 84123">
+            <label> Planet </label> <select name="planet">
+            	<option value="0">&nbsp;</option>
+                <option value="1" selected>Earth</option>
+                <option value="2">Mars</option>
+                <option value="3">Venus</option>
+                </select>
+      </fieldset>
+          <input class="btn" type="submit" id="UpdateSaveCustomer" value="Save Update Customer">
+          <input class="btn" type="button" value="cancel" onClick="browseCustomers()">
+	</form> 
+</div><!-- update -->
+<p>&nbsp;</p>
+<div id="delete" style="display: block">
+  <form method="POST" id="deleteCustomer">
+      <legend><strong>Delete Customer</strong></legend>
+          <fieldset class="fields">
+          <p>Are you sure you wish to delete the following?</p>
+          <input type="hidden" name="CustomerID" id="deleteCustomerID" value="1">
+          <label><strong>ID:</strong></label> 1
+            <label> <strong>Name</strong> </label> Bob Jones
+            
+    </fieldset>
+    <input class="btn" type="submit" id="DeleteCustomer" value="Delete Customer">
+          <input class="btn" type="button" value="cancel" onClick="browseCustomers()">
+  </form> 
+</div><!-- delete -->
+
+</body>
+</html>
