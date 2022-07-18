@@ -3,40 +3,36 @@
 <title>Donuts</title>
 <link href="style.css" rel="stylesheet" type="text/css" />
 <script language="JavaScript">
-		let browseForm = document.getElementById('browse').style.display;
-    let insertForm = document.getElementById('insert').style.display;
-    let updateForm = document.getElementById('update').style.display;
-    let deleteForm = document.getElementById('delete').style.display
 		function showform(form) {
 			if (form == 'insert'){
-				browseForm = 'none';
-				insertForm= 'block';
-				updateForm = 'none';
-				deleteForm = 'none';
+				document.getElementById('browse').style.display = 'none';
+				document.getElementById('insert').style.display = 'block';
+				document.getElementById('update').style.display = 'none';
+				document.getElementById('delete').style.display = 'none';
 			}
 			else if (form == 'update'){
-				browseForm = 'none';
-				insertForm = 'none';
-				updateForm = 'block';
-				deleteForm = 'none';
+				document.getElementById('browse').style.display = 'none';
+				document.getElementById('insert').style.display = 'none';
+				document.getElementById('update').style.display = 'block';
+				document.getElementById('delete').style.display = 'none';
 			}
 			else if (form == 'delete'){
-				browseForm = 'none';
-				insertForm = 'none';
-				updateForm = 'none';
-				deleteForm = 'block';
+				document.getElementById('browse').style.display = 'none';
+				document.getElementById('insert').style.display = 'none';
+				document.getElementById('update').style.display = 'none';
+				document.getElementById('delete').style.display = 'block';
 			}
       else if (form == 'all'){
-                browseForm = 'block';
-				insertForm = 'block';
-				updateForm = 'block';
-				deleteForm = 'block';
+				document.getElementById('browse').style.display = 'block';
+				document.getElementById('insert').style.display = 'block';
+				document.getElementById('update').style.display = 'block';
+				document.getElementById('delete').style.display = 'block';
 			}
 			else {
-				browseForm = 'block';
-				insertForm = 'none';
-				updateForm = 'none';
-				deleteForm = 'none';
+				document.getElementById('browse').style.display = 'block';
+				document.getElementById('insert').style.display = 'none';
+				document.getElementById('update').style.display = 'none';
+				document.getElementById('delete').style.display = 'none';
 			}
 		}
     function newDonut() { showform('insert'); }
