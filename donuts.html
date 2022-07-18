@@ -3,40 +3,40 @@
 <title>Donuts</title>
 <link href="style.css" rel="stylesheet" type="text/css" />
 <script language="JavaScript">
-		function showform(dowhat) {
-			/*
-			* four DIVS: browse, insert, update, delete
-			* this function sets one visible the others not
-			*/
-			if (dowhat == 'insert'){
-				document.getElementById('browse').style.display = 'none';
-				document.getElementById('insert').style.display = 'block';
-				document.getElementById('update').style.display = 'none';
-				document.getElementById('delete').style.display = 'none';
+		let browseForm = document.getElementById('browse').style.display;
+    let insertForm = document.getElementById('insert').style.display;
+    let updateForm = document.getElementById('update').style.display;
+    let deleteForm = document.getElementById('delete').style.display
+		function showform(form) {
+			if (form == 'insert'){
+				browseForm = 'none';
+				insertForm= 'block';
+				updateForm = 'none';
+				deleteForm = 'none';
 			}
-			else if (dowhat == 'update'){
-				document.getElementById('browse').style.display = 'none';
-				document.getElementById('insert').style.display = 'none';
-				document.getElementById('update').style.display = 'block';
-				document.getElementById('delete').style.display = 'none';
+			else if (form == 'update'){
+				browseForm = 'none';
+				insertForm = 'none';
+				updateForm = 'block';
+				deleteForm = 'none';
 			}
-			else if (dowhat == 'delete'){
-				document.getElementById('browse').style.display = 'none';
-				document.getElementById('insert').style.display = 'none';
-				document.getElementById('update').style.display = 'none';
-				document.getElementById('delete').style.display = 'block';
+			else if (form == 'delete'){
+				browseForm = 'none';
+				insertForm = 'none';
+				updateForm = 'none';
+				deleteForm = 'block';
 			}
-      else if (dowhat == 'all'){
-				document.getElementById('browse').style.display = 'block';
-				document.getElementById('insert').style.display = 'block';
-				document.getElementById('update').style.display = 'block';
-				document.getElementById('delete').style.display = 'block';
+      else if (form == 'all'){
+                browseForm = 'block';
+				insertForm = 'block';
+				updateForm = 'block';
+				deleteForm = 'block';
 			}
-			else { //by default display browse
-				document.getElementById('browse').style.display = 'block';
-				document.getElementById('insert').style.display = 'none';
-				document.getElementById('update').style.display = 'none';
-				document.getElementById('delete').style.display = 'none';
+			else {
+				browseForm = 'block';
+				insertForm = 'none';
+				updateForm = 'none';
+				deleteForm = 'none';
 			}
 		}
     function newDonut() { showform('insert'); }
@@ -89,7 +89,7 @@
   </tr>
 </table>
 <p>&nbsp;</p>
-</div> <!-- browse -->
+</div>
 <div id="insert">
     <form method="POST" id="addPlanet">
         <legend><strong>Add Donut</strong></legend>
@@ -101,7 +101,7 @@
           <input class="btn" type="submit" id="addDonut" value="Add Donut">
           <input class="btn" type="button" value="cancel" onClick="browseDonuts()">
 	</form> 
-</div><!-- insert -->
+</div>
 <p>&nbsp;</p>
 <div id="update">
     <form method="POST" id="UpdateDonut">
@@ -116,7 +116,7 @@
           <input class="btn" type="submit" id="UpdateSaveDonut" value="Save Update Donut">
           <input class="btn" type="button" value="cancel" onClick="browseDonuts()">
 	</form> 
-</div><!-- update -->
+</div>
 <p>&nbsp;</p>
 <div id="delete" style="display: block">
   <form method="POST" id="deleteDonut">
@@ -131,7 +131,7 @@
     <input class="btn" type="submit" id="DeleteDonut" value="Delete Donut">
           <input class="btn" type="button" value="cancel" onClick="browseDonuts()">
   </form> 
-</div><!-- delete -->
+</div>
 
 </body>
 </html>
