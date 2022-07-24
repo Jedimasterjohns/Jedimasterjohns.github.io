@@ -55,8 +55,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <h1>Stores</h1>
 
-    [ <a href="index.html">Home</a> | <a href="orders.html">Orders</a> | <a href="customers.html">Customers</a> | <a href="donuts.html">Donuts</a> | <a href="stores.html">Stores</a> | <a href="suppliers.html">Suppliers</a> ]
-
+    [ <a href="index.html">Home</a> | <a href="orders.html">Orders</a> | <a href="customers.html">Customers</a> | <a href="donuts.html">Donuts</a> | <a href="stores.html">Stores</a> | <a href="suppliers.html">Suppliers</a> | <a href="suppliersStores.html">suppliersStores</a> ]
     <div id="browse">
         <p><a href="#" onClick="showAll()">Display all forms</a> </p>
         <div class="row justify-content-center">
@@ -119,10 +118,10 @@
                         <option value="3">Venus</option>
                     </select>
                 </fieldset>
-                    <label> Supplier ID </label> <input type="text" name="supplierID">
+                <label> Supplier ID </label> <input type="text" name="supplierID">
                 </fieldset>
-                <input  class="btn btn-primary shadow-none" type="submit" id="addStore" value="Add Store">
-                <input  class="btn btn-primary shadow-none" type="button" value="cancel" onClick="browseStores()">
+                <input class="btn btn-primary shadow-none" type="submit" id="addStore" value="Add Store">
+                <input class="btn btn-primary shadow-none" type="button" value="cancel" onClick="browseStores()">
             </form>
         </div>
         <p>&nbsp;</p>
@@ -143,7 +142,7 @@
                     <label> Supplier ID </label> <input type="text" name="supplierID" value="3">
                 </fieldset>
                 <input class="btn btn-primary shadow-none" type="submit" id="UpdateSaveStore" value="Save Update Store">
-                <input  class="btn btn-primary shadow-none" type="button" value="cancel" onClick="browseStores()">
+                <input class="btn btn-primary shadow-none" type="button" value="cancel" onClick="browseStores()">
             </form>
         </div>
         <p>&nbsp;</p>
@@ -157,10 +156,10 @@
                     <label> <strong>Name</strong> </label> Store1
 
                 </fieldset>
-                <input  class="btn btn-primary shadow-none" type="submit" id="DeleteStore" value="Delete Store">
-                <input  class="btn btn-primary shadow-none" type="button" value="cancel" onClick="browseStores()">
+                <input class="btn btn-primary shadow-none" type="submit" id="DeleteStore" value="Delete Store">
+                <input class="btn btn-primary shadow-none" type="button" value="cancel" onClick="browseStores()">
             </form>
         </div>
-     </div>
+    </div>
 </body>
 </html>
