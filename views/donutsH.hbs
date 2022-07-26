@@ -1,0 +1,155 @@
+
+    <script language="JavaScript">
+        function showform(form) {
+            if (form == 'insert') {
+                document.getElementById('browse').style.display = 'none';
+                document.getElementById('insert').style.display = 'block';
+                document.getElementById('update').style.display = 'none';
+                document.getElementById('delete').style.display = 'none';
+            }
+            else if (form == 'update') {
+                document.getElementById('browse').style.display = 'none';
+                document.getElementById('insert').style.display = 'none';
+                document.getElementById('update').style.display = 'block';
+                document.getElementById('delete').style.display = 'none';
+            }
+            else if (form == 'delete') {
+                document.getElementById('browse').style.display = 'none';
+                document.getElementById('insert').style.display = 'none';
+                document.getElementById('update').style.display = 'none';
+                document.getElementById('delete').style.display = 'block';
+            }
+            else if (form == 'all') {
+                document.getElementById('browse').style.display = 'block';
+                document.getElementById('insert').style.display = 'block';
+                document.getElementById('update').style.display = 'block';
+                document.getElementById('delete').style.display = 'block';
+            }
+            else {
+                document.getElementById('browse').style.display = 'block';
+                document.getElementById('insert').style.display = 'none';
+                document.getElementById('update').style.display = 'none';
+                document.getElementById('delete').style.display = 'none';
+            }
+        }
+        function newDonut() { showform('insert'); }
+        function updateDonut(pid) {
+            showform('update');
+            document.getElementById('id-update').value = pid[0]
+            document.getElementById('name-update').value = pid[1]
+            document.getElementById('description-update').value = pid[2]
+            document.getElementById('price-update').value = pid[3]
+        }
+        function deleteDonut(pid) {
+            showform('delete');
+            document.getElementById('deleteDonutID').value = pid[0]
+            document.getElementById('deleteDonutID-label').textContent = pid[0]
+        }
+        function browse() { showform('browse'); }
+        function showAll() { showform('all'); }
+    </script>
+    <title>Donuts</title>
+
+        
+        <div id="browse">
+            <p><a href="#" onClick="showAll()">Display all forms</a> </p>
+            <div class="row justify-content-center">
+                <div class="col-auto">
+                    <table id="donuts-table" border="1" cellpadding="5">
+
+                        {{!-- Header section --}}
+                        <thead>
+
+                            {{!-- For just the first row, we print each key of the row object as a header cell so we know what each column means when the page renders --}}
+                            <tr>
+                                <th><a href="#" onClick="newDonut()">New</a></th>
+                                <th></th>
+                                {{#each data.[0]}}
+                                <th>
+
+                                    {{@key}}
+                                </th>
+                                {{/each}}
+                            </tr>
+                        </thead>
+
+                        {{!-- Body section --}}
+                        <tbody>
+
+                            {{!-- For each row, print the id, fname, lname, homeworld and age, in order --}}
+                            {{#each data}}
+
+                            <tr>
+                                <td><a href="#" onClick="updateDonut([{{this.donutID}},'{{this.donutName}}','{{this.donutDescription}}','{{this.donutPrice}}'])">Edit</a></td>
+                                <td><a href="#" onclick="deleteDonut([{{this.donutID}},'{{this.donutName}}','{{this.donutDescription}}','{{this.donutPrice}}'])">Delete</a></td>
+                                <td>{{this.donutID}}</td>
+                                <td>{{this.donutName}}</td>
+                                <td>{{this.donutDescription}}</td>
+                                <td>{{this.donutPrice}}</td>
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <p>&nbsp;</p>
+        </div>
+
+        <div id="wrap" class="col-md-12 school-options-dropdown text-center">
+            <div id="insert">
+                <form method="POST" id="insertDonut" action="/add-donut-form">
+                    <legend><strong>Add Donut</strong></legend>
+                    <fieldset class="fields">
+                        <label> Name </label>
+                        <input type="text" name="insert-name" id="insert-name">
+
+                        <label> Description </label>
+                        <input type="text" name="insert-description" id="insert-description">
+
+                        <label> Price </label>
+                        <input type="text" name="insert-price" id="insert-price">
+                    </fieldset>
+                    <input class="btn btn-primary shadow-none" type="submit" id="addDonut" value="Add Donut">
+                    <input class="btn btn-primary shadow-none" type="button" value="cancel" onClick="browse()">
+                </form>
+            </div>
+            <p>&nbsp;</p>
+
+            <div id="update">
+                <form method="POST" id="updateDonut" action="/update-donut-form">
+                    <legend><strong>Update Donut</strong></legend>
+                    <fieldset class="fields">
+                        <input type="hidden" name="id-update" id="id-update" value="1">
+                   
+                        <label> Name </label>
+                        <input type="text" name="name-update" id="name-update" value="">
+
+                        <label> Description </label>
+                        <input type="text" name="description-update" id="description-update" value="">
+
+                        <label> Price </label>
+                        <input type="text" name="price-update" id="price-update" value="">
+
+                    </fieldset>
+                    <input class="btn btn-primary shadow-none" type="submit" id="UpdateSaveDonut" value="Save Update Donut">
+                    <input class="btn btn-primary shadow-none" type="button" value="cancel" onClick="browse()">
+                </form>
+            </div>
+            <p>&nbsp;</p>
+            <div id="delete" style="display: block">
+                <form method="POST" id="deleteDonut" action="delete-donut-form">
+                    <legend><strong>Delete Donut</strong></legend>
+                    <fieldset class="fields">
+                        <p>Are you sure you wish to delete the following?</p>
+                        <label><strong>ID:</strong></label>
+                        <label id="deleteDonutID-label"></label>
+                        <input type="hidden" name="deleteDonutID" id="deleteDonutID" value="">
+
+
+                    </fieldset>
+                    <input class="btn btn-primary shadow-none" type="submit" id="DeleteDonut" value="Delete Donut">
+                    <input class="btn btn-primary shadow-none" type="button" value="cancel" onClick="browse()">
+                </form>
+            </div>
+        </div>
+

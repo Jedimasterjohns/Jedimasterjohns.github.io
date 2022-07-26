@@ -1,0 +1,176 @@
+{{!-- Create a table --}}
+<script language="JavaScript">
+    function showform(form) {
+        if (form == 'insert') {
+            document.getElementById('browse').style.display = 'none';
+            document.getElementById('insert').style.display = 'block';
+            document.getElementById('update').style.display = 'none';
+            document.getElementById('delete').style.display = 'none';
+        }
+        else if (form == 'update') {
+            document.getElementById('browse').style.display = 'none';
+            document.getElementById('insert').style.display = 'none';
+            document.getElementById('update').style.display = 'block';
+            document.getElementById('delete').style.display = 'none';
+        }
+        else if (form == 'delete') {
+            document.getElementById('browse').style.display = 'none';
+            document.getElementById('insert').style.display = 'none';
+            document.getElementById('update').style.display = 'none';
+            document.getElementById('delete').style.display = 'block';
+        }
+        else if (form == 'all') {
+            document.getElementById('browse').style.display = 'block';
+            document.getElementById('insert').style.display = 'block';
+            document.getElementById('update').style.display = 'block';
+            document.getElementById('delete').style.display = 'block';
+        }
+        else {
+            document.getElementById('browse').style.display = 'block';
+            document.getElementById('insert').style.display = 'none';
+            document.getElementById('update').style.display = 'none';
+            document.getElementById('delete').style.display = 'none';
+        }
+    }
+    function insert() { showform('insert'); }
+    function update(pid) {
+        showform('update');
+        document.getElementById('id-update').value = pid[0];
+        document.getElementById('fname-update').value = pid[1];
+        document.getElementById('lname-update').value = pid[2];
+        document.getElementById('email-update').value = pid[3];
+        document.getElementById('address-update').value = pid[4];
+        document.getElementById('planet-update').value = pid[5];
+        
+    }
+    function remove(pid) {
+        showform('delete');
+        document.getElementById('deleteCustomerID').value = pid;
+        document.getElementById('deleteCustomerID-label').textContent = pid;
+    }
+    function browse() { showform('browse'); }
+    function showAll() { showform('all'); }
+</script>
+
+
+
+
+<title>Customers</title>
+<div id="browse">
+    <p><a href="#" onClick="showAll()">Display all forms</a> </p>
+    <div class="row justify-content-center">
+        <div class="col-auto">
+            <table id="customer-table" border="1" cellpadding="5">
+
+                {{!-- Header section --}}
+                <thead>
+
+                    {{!-- For just the first row, we print each key of the row object as a header cell so we know what each column means when the page renders --}}
+                    <tr>
+                        <th><a href="#" onClick="insert()">New</a></th>
+                        <th></th>
+                        {{#each data.[0]}}
+                        <th>
+
+                            {{@key}}
+                        </th>
+                        {{/each}}
+                    </tr>
+                </thead>
+
+                {{!-- Body section --}}
+                <tbody>
+
+                    {{!-- For each row, print the id, fname, lname, homeworld and age, in order --}}
+                    {{#each data}}
+
+                    <tr>
+                        <td><a href="#" onClick="update([{{this.customerID}},'{{this.customerFName}}','{{this.customerLName}}','{{this.customerEmail}}','{{this.customerAddress}}','{{this.customerPlanet}}'])">Edit</a></td>
+                        <td><a href="#" onclick="remove({{this.customerID}})">Delete</a></td>
+                        <td>{{this.customerID}}</td>
+                        <td>{{this.customerFName}}</td>
+                        <td>{{this.customerLName}}</td>
+                        <td>{{this.customerEmail}}</td>
+                        <td>{{this.customerAddress}}</td>
+                        <td>{{this.customerPlanet}}</td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <p>&nbsp;</p>
+</div>
+
+{{!-- Form to add a record to the table  --}}
+<div id="wrap" class="col-md-12 school-options-dropdown text-center">
+    <div id="insert">
+        <form id="insertCustomer" method="POST" action="/add-person-form">
+            <legend><strong>Add Donut</strong></legend>
+            <fieldset class="fields">
+                <label for="insert-fname">First Name </label>
+                <input type="text" name="insert-fname" id="insert-fname">
+
+                <label for="insert-lname">Last Name </label>
+                <input type="text" name="insert-lname" id="insert-lname">
+
+                <label for="insert-email">Email </label>
+                <input type="text" name="insert-email" id="insert-email">
+
+                <label for="insert-customer-address">Address </label>
+                <input type="text" name="insert-customer-address" id="insert-customer-address">
+
+                <label for="insert-customer-planet">Planet </label>
+                <input type="text" name="insert-customer-planet" id="insert-customer-planet">
+            </fieldset>
+            <input class="btn btn-primary shadow-none" type="submit" id="addCustomer" value="Add Customer">
+            <input class="btn btn-primary shadow-none" type="button" value="cancel" onClick="browse()">
+        </form>
+    </div>
+    <p>&nbsp;</p>
+   
+        <div id="update">
+            <form method="POST" id="updateCustomer" action="/update-person-form">
+                <legend><strong>Update Customer</strong></legend>
+                <fieldset class="fields">
+                    <input type="number" name="id-update" id="id-update" value="">
+                    {{!--<label> ID </label> 1--}}
+
+                    <label> Customer ID</label>
+
+                    <label> First Name </label>
+                    <input type="text" name="fname-update" id="fname-update" value="">
+
+                    <label> Last Name </label>
+                    <input type="text" name="lname-update" id="lname-update" value="">
+
+                    <label> Email </label>
+                    <input type="text" name="email-update" id="email-update" value="">
+
+                    <label> Address </label>
+                    <input type="text" name="address-update" id="address-update" value="">
+
+                    <label> Planet </label>
+                    <input type="text" name="planet-update" id="planet-update" value="">
+
+                </fieldset>
+                <input class="btn btn-primary shadow-none" type="submit" id="UpdateSaveCustomer" value="Save Update Customer">
+                <input class="btn btn-primary shadow-none" type="button" value="cancel" onClick="browse()">
+            </form>
+        </div>
+        <p>&nbsp;</p>
+        <div id="delete">
+            <form id="deleteCustomer" method="POST" action="/delete-person-form">
+                <legend><strong>Remove Customer</strong></legend>
+                <fieldset class="fields">
+                    <label for="customer-ID">ID: </label>
+                    <label id="deleteCustomerID-label">1</label>
+                    <input type ="hidden" name="deleteCustomerID" id="deleteCustomerID" value="" readonly>
+                </fieldset>
+                <input class="btn btn-primary shadow-none" type="submit" id="delete-Customer" value="delete Customer">
+                <input class="btn btn-primary shadow-none" type="button" value="cancel" onClick="browse()">
+            </form>
+        </div>
+
+    </div>
+
