@@ -1,0 +1,93 @@
+{{!-- Create a table --}}
+<script language="JavaScript">
+    function showform(form) {
+        if (form == 'insert') {
+            document.getElementById('browse').style.display = 'none';
+            document.getElementById('insert').style.display = 'block';
+            document.getElementById('update').style.display = 'none';
+            document.getElementById('delete').style.display = 'none';
+        }
+        else if (form == 'update') {
+            document.getElementById('browse').style.display = 'none';
+            document.getElementById('insert').style.display = 'none';
+            document.getElementById('update').style.display = 'block';
+            document.getElementById('delete').style.display = 'none';
+        }
+        else if (form == 'delete') {
+            document.getElementById('browse').style.display = 'none';
+            document.getElementById('insert').style.display = 'none';
+            document.getElementById('update').style.display = 'none';
+            document.getElementById('delete').style.display = 'block';
+        }
+        else if (form == 'all') {
+            document.getElementById('browse').style.display = 'block';
+            document.getElementById('insert').style.display = 'block';
+            document.getElementById('update').style.display = 'block';
+            document.getElementById('delete').style.display = 'block';
+        }
+        else {
+            document.getElementById('browse').style.display = 'block';
+            document.getElementById('insert').style.display = 'none';
+            document.getElementById('update').style.display = 'none';
+            document.getElementById('delete').style.display = 'none';
+        }
+    }
+    function insert() { showform('insert'); }
+    function update(pid) {
+        showform('update');
+
+    }
+    function remove(pid) {
+        showform('delete');
+
+    }
+    function browse() { showform('browse'); }
+    function showAll() { showform('all'); }
+</script>
+
+
+
+
+<title>Customers</title>
+<div id="browse">
+    <p><a href="#" onClick="showAll()">Display all forms</a> </p>
+    <div class="row justify-content-center">
+        <div class="col-auto">
+            <table id="customer-table" border="1" cellpadding="5">
+
+                {{!-- Header section --}}
+                <thead>
+
+                    {{!-- For just the first row, we print each key of the row object as a header cell so we know what each column means when the page renders --}}
+                    <tr>
+                        <th><a href="#" onClick="insert()">New</a></th>
+                        <th></th>
+                        {{#each data.[0]}}
+                        <th>
+
+                            {{@key}}
+                        </th>
+                        {{/each}}
+                    </tr>
+                </thead>
+
+                {{!-- Body section --}}
+                <tbody>
+
+                    {{!-- For each row, print the id, fname, lname, homeworld and age, in order --}}
+                    {{#each data}}
+
+                    <tr>
+                        <td><a href="#" onClick="update([{{this.supplierID}},{{this.storeID}},'{{this.supplierName}}','{{this.storeName}}'])">Edit</a></td>
+                        <td><a href="#" onclick="remove({{this.customerID}})">Delete</a></td>
+                        <td>{{this.supplierName}}</td>
+                        <td>{{this.storeName}}</td>
+
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <p>&nbsp;</p>
+</div>

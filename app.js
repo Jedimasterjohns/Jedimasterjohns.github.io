@@ -3,6 +3,11 @@
 /*
     SETUP
 */
+const util = require('util');
+require('util.promisify').shim();
+
+const fs = require('fs');
+const readFileAsync = util.promisify(fs.readFile);
 // Express
 var express = require('express');   // We are using the express library for the web server
 var app = express();            // We need to instantiate an express object to interact with the server in our code
@@ -54,6 +59,15 @@ app.get('/customersH', function (req, res) {
     db.pool.query(query1, function (error, rows, fields) {    // Execute the query
 
         res.render('customersH', { data: rows });                  // Render the index.hbs file, and also send the renderer
+    })
+});
+
+app.get('/suppliersStoresH', function (req, res) {
+    console.log("ss")
+    let query1 = "SELECT * FROM SupplierStoreInter"
+    db.pool.query(query1, function (error, rows, fields) {    // Execute the query
+
+        res.render('suppliersStoresH', { data: rows });                  // Render the index.hbs file, and also send the renderer
     })
 });
 
