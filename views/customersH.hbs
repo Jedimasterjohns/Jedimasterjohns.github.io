@@ -6,24 +6,28 @@
             document.getElementById('insert').style.display = 'block';
             document.getElementById('update').style.display = 'none';
             document.getElementById('delete').style.display = 'none';
+            document.getElementById('search').style.display = 'none';
         }
         else if (form == 'update') {
             document.getElementById('browse').style.display = 'none';
             document.getElementById('insert').style.display = 'none';
             document.getElementById('update').style.display = 'block';
             document.getElementById('delete').style.display = 'none';
+            document.getElementById('search').style.display = 'none';
         }
         else if (form == 'delete') {
             document.getElementById('browse').style.display = 'none';
             document.getElementById('insert').style.display = 'none';
             document.getElementById('update').style.display = 'none';
             document.getElementById('delete').style.display = 'block';
+            document.getElementById('search').style.display = 'none';
         }
         else if (form == 'all') {
             document.getElementById('browse').style.display = 'block';
             document.getElementById('insert').style.display = 'block';
             document.getElementById('update').style.display = 'block';
             document.getElementById('delete').style.display = 'block';
+            document.getElementById('search').style.display = 'block';
         }
         else {
             document.getElementById('browse').style.display = 'block';
@@ -98,8 +102,18 @@
                 </tbody>
             </table>
         </div>
+
     </div>
     <p>&nbsp;</p>
+    <div id="wrap" class="col-md-12 school-options-dropdown text-center">
+            <form id="searchCustomer" method="GET" action="/customersH">
+                <label for="search-fname">Search Name</label>
+                <input type="text" name="search_fname" id="search_fname" />
+                <input class="btn btn-primary shadow-none" type="submit" id="searchCustomer" value="Search Customer" />
+                <input class="btn btn-primary shadow-none" type="button" value="cancel" onClick="location.href = '/customersH';">
+            </form>   
+    </div>
+    
 </div>
 
 {{!-- Form to add a record to the table  --}}

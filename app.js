@@ -54,8 +54,15 @@ app.get('/donutsH', function (req, res) {
 
 app.get('/customersH', function (req, res) {
     console.log("yo")
-    let query1 = "SELECT * FROM Customers;";               // Define our query
-
+    let custom = req.query.search_fname
+    let query1;
+    if (custom === undefined) {
+        query1 = "SELECT * FROM Customers;";
+    }
+    else {
+        query1 = `SELECT * FROM Customers WHERE customerFName LIKE "${custom}%"`;
+        console.log(query1)
+    }
     db.pool.query(query1, function (error, rows, fields) {    // Execute the query
 
         res.render('customersH', { data: rows });                  // Render the index.hbs file, and also send the renderer
@@ -70,6 +77,7 @@ app.get('/suppliersStoresH', function (req, res) {
         res.render('suppliersStoresH', { data: rows });                  // Render the index.hbs file, and also send the renderer
     })
 });
+
 
 app.post('/add-person-form', function (req, res) {
 
