@@ -52,6 +52,22 @@ app.get('/donutsH', function (req, res) {
     // Note the call to render() and not send(). Using render() ensures the templating engine
 });
 
+app.get('/ordersH', function (req, res) {
+    console.log("hi")
+    let query1 = "SELECT * FROM Orders;";               // Define our query
+    let query2 = "SELECT Orders.* , Customers.customerFName, Donuts.donutName, Stores.storeName From Orders JOIN Customers ON Orders.customerID = Customers.customerID JOIN Donuts ON Orders.donutID = Donuts.donutID JOIN Stores ON Orders.storeID = Stores.storeID;"
+    db.pool.query(query1, function (error, rows, fields) {    // Execute the query
+        let identification = rows;
+        db.pool.query(query2, (error, rows, fields) => {
+            let info = rows;
+            console.log(info)
+            console.log(identification)
+            res.render('ordersH', {data: identification, info: info});                  // Render the index.hbs file, and also send the renderer
+        })
+    })
+    // Note the call to render() and not send(). Using render() ensures the templating engine
+});
+
 app.get('/customersH', function (req, res) {
     console.log("yo")
     let custom = req.query.search_fname
