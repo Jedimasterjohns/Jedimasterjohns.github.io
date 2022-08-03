@@ -58,6 +58,7 @@ app.get('/customersH', function (req, res) {
     let query1;
     if (custom === undefined) {
         query1 = "SELECT * FROM Customers;";
+        console.log("test")
     }
     else {
         query1 = `SELECT * FROM Customers WHERE customerFName LIKE "${custom}%"`;
