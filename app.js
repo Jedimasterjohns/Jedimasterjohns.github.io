@@ -92,11 +92,19 @@ app.get('/customersH', function (req, res) {
 });
 
 app.get('/suppliersStoresH', function (req, res) {
-    console.log("ss")
-    let query1 = "SELECT * FROM SupplierStoreInter"
-    db.pool.query(query1, function (error, rows, fields) {    // Execute the query
 
-        res.render('suppliersStoresH', { data: rows });                  // Render the index.hbs file, and also send the renderer
+    let query1 = "SELECT * FROM SupplierStoreInter"
+    let query2 = "SELECT Suppliers.supplierName, Stores.storeName from SupplierStoreInter Join Suppliers ON SupplierStoreInter.supplierID = Suppliers.supplierID JOIN Stores ON SupplierStoreInter.storeID = Stores.storeID Order by Suppliers.supplierID ASC;"
+    let query3 = "SELECT storeID, storeName FROM Stores"
+    let query4 = "SELECT supplierID, supplierName From Suppliers"
+    db.pool.query(query1, function (error, q1, fields) {    // Execute the query
+        db.pool.query(query2, (error, q2, fields) => {
+            db.pool.query(query3, (error, q3, fields) => {
+                db.pool.query(query4, (error, q4, fields) => {
+                    res.render('suppliersStoresH', { data: q1, names: q2, storeData: q3, supplierData: q4 });                  // Render the index.hbs file, and also send the renderer
+                })                // Render the index.hbs file, and also send the renderer
+            })                         // Render the index.hbs file, and also send the renderer
+        })                       // Render the index.hbs file, and also send the renderer
     })
 });
 
@@ -273,6 +281,26 @@ app.post('/delete-order-form', function (req, res) {
         }
     })
 });
+
+app.post('/add-supplierStore-form', function (req, res) {
+
+    let data = req.body;
+
+    query1 = `INSERT INTO SupplierStoreInter (supplierID,storeID)
+                VALUES (${data['inputSupplier']},${data['inputStore']});`;
+
+    db.pool.query(query1, function (error, rows, fields) {
+
+        if (error) {
+            console.log(error)
+            res.sendStatus(400);
+        }
+
+        else {
+            res.redirect('/suppliersStoresH');
+        }
+    })
+})
 /*
     LISTENER
 */
