@@ -53,16 +53,21 @@ app.get('/donutsH', function (req, res) {
 });
 
 app.get('/ordersH', function (req, res) {
-    console.log("hi")
-    let query1 = "SELECT * FROM Orders;";               // Define our query
+
+    let query1 = "SELECT Orders.orderID, Customers.customerFName, Donuts.donutName, Stores.storeName, Orders.totalPurchased From Orders JOIN Customers ON Orders.customerID = Customers.customerID JOIN Donuts ON Orders.donutID = Donuts.donutID JOIN Stores ON Orders.storeID = Stores.storeID LIMIT 1; ";               // Define our query
     let query2 = "SELECT Orders.* , Customers.customerFName, Donuts.donutName, Stores.storeName From Orders JOIN Customers ON Orders.customerID = Customers.customerID JOIN Donuts ON Orders.donutID = Donuts.donutID JOIN Stores ON Orders.storeID = Stores.storeID;"
-    db.pool.query(query1, function (error, rows, fields) {    // Execute the query
-        let identification = rows;
-        db.pool.query(query2, (error, rows, fields) => {
-            let info = rows;
-            console.log(info)
-            console.log(identification)
-            res.render('ordersH', {data: identification, info: info});                  // Render the index.hbs file, and also send the renderer
+    let query3 = "SELECT customerID, customerFName, customerLName FROM Customers;"
+    let query4 = "Select storeID, storeName FROM Stores;"
+    let query5 = "Select donutID, donutName From Donuts;"
+    db.pool.query(query1, function (error, q1, fields) {    // Execute the query
+        db.pool.query(query2, (error, q2, fields) => {
+            db.pool.query(query3, (error, q3, fields) => {
+                db.pool.query(query4, (error, q4, fields) => {
+                    db.pool.query(query5, (error, q5, fields) => {
+                        res.render('ordersH', { data: q1, info: q2, customerData: q3, storeData: q4, donutData: q5 });                  // Render the index.hbs file, and also send the renderer
+                    })
+                })                 
+            })
         })
     })
     // Note the call to render() and not send(). Using render() ensures the templating engine
@@ -211,6 +216,63 @@ app.post('/update-donut-form', function (req, res) {
         }
     })
 })
+
+app.post('/add-order-form', function (req, res) {
+
+    let data = req.body;
+
+    query1 = `INSERT INTO Orders (customerID,donutID,storeID,totalPurchased)
+                VALUES (${data['inputCustomer']},${data['inputDonut']},${data['inputStore']},${data['inputCount']});`;
+
+    db.pool.query(query1, function (error, rows, fields) {
+
+        if (error) {
+            console.log(error)
+            res.sendStatus(400);
+        }
+
+        else {
+            res.redirect('/ordersH');
+        }
+    })
+})
+app.post('/update-order-form', function (req, res) {
+
+    let data = req.body;
+
+    query1 = `UPDATE Orders SET customerID = ${data['updateCustomer']}, donutID = ${data['updateDonut']}, storeID = ${data['updateStore']}, totalPurchased = ${data['updateCount']}
+                WHERE orderID = ${data['updateOrderID']};`;
+    console.log(query1)
+    db.pool.query(query1, function (error, rows, fields) {
+
+        if (error) {
+            console.log(error)
+            res.sendStatus(400);
+        }
+
+        else {
+            res.redirect('/ordersH');
+        }
+    })
+})
+app.post('/delete-order-form', function (req, res) {
+
+    let data = req.body;
+
+    query1 = `DELETE FROM Orders WHERE orderID = ${data['deleteOrderID']};`
+    console.log(query1)
+    db.pool.query(query1, function (error, rows, fields) {
+
+        if (error) {
+            console.log(error)
+            res.sendStatus(400);
+        }
+
+        else {
+            res.redirect('/ordersH');
+        }
+    })
+});
 /*
     LISTENER
 */

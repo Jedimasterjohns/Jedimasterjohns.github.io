@@ -36,13 +36,20 @@
         }
     }
     function insert() { showform('insert'); }
-    function update(pid) {
+    function update(ids,names) {
         showform('update');
-
+        console.log(ids)
+        document.getElementById('updateOrderID').value = ids[0]
+        document.getElementById('updateCustomer').value = ids[1]
+        document.getElementById('updateDonut').value = ids[2]
+        document.getElementById('updateStore').value = ids[3]
+        document.getElementById('updateCount').value = ids[4]
     }
-    function remove(pid) {
+    function remove(ids) {
         showform('delete');
-
+        console.log(ids)
+        document.getElementById('deleteOrderID').value = ids
+        document.getElementById('deleteOrderID-label').textContent = ids
     }
     function browse() { showform('browse'); }
     function showAll() { showform('all'); }
@@ -96,4 +103,84 @@
     </div>
     <p>&nbsp;</p>
 
+</div>
+
+<div id="wrap" class="col-md-12 school-options-dropdown text-center">
+    <div id="insert">
+        <form id="insertOrder" method="POST" action="/add-order-form">
+            <legend><strong>Add Order</strong></legend>
+            <label> Customer </label>
+            <select name="inputCustomer" id="inputCustomer">
+                <option value="">Select Customer</option>
+                {{#each customerData}}
+                <option value="{{this.customerID}}">{{this.customerFName}}({{this.customerID}})</option>
+                {{/each}}
+            </select>
+            <label> Donut </label>
+            <select name="inputDonut" id="inputDonut">
+                <option value="">Select Donut</option>
+                {{#each donutData}}
+                <option value="{{this.donutID}}">{{this.donutName}}({{this.donutID}})</option>
+                {{/each}}
+            </select>
+            <label> Store </label>
+            <select name="inputStore" id="inputStore">
+                <option value="">Select Store</option>
+                {{#each storeData}}
+                <option value="{{this.storeID}}">{{this.storeName}}({{this.storeID}})</option>
+                {{/each}}
+            </select>
+            <label> Total purchased </label>
+            <input type="number" name="inputCount" id="inputCount">
+
+            <input class="btn btn-primary shadow-none" type="submit" id="addCustomer" value="Add Order">
+            <input class="btn btn-primary shadow-none" type="button" value="cancel" onClick="browse()">
+        </form>
+    </div>
+    <div id="update">
+        <form method="POST" id="updateOrder" action="/update-order-form">
+            <legend><strong>Update Donut</strong></legend>
+
+            <input type="hidden" name="updateOrderID" id="updateOrderID" value="">
+            <label>Customer</label>
+            <select name="updateCustomer" id="updateCustomer">
+                <option value="">Select Customer</option>
+                {{#each customerData}}
+                <option value="{{this.customerID}}">{{this.customerFName}}({{this.customerID}})</option>
+                {{/each}}
+            </select>
+            <label> Donut </label>
+            <select name="updateDonut" id="updateDonut">
+                <option value="">Select Donut</option>
+                {{#each donutData}}
+                <option value="{{this.donutID}}">{{this.donutName}}({{this.donutID}})</option>
+                {{/each}}
+            </select>
+            <label> Store </label>
+            <select name="updateStore" id="updateStore">
+                <option value="">Select Store</option>
+                {{#each storeData}}
+                <option value="{{this.storeID}}">{{this.storeName}}({{this.storeID}})</option>
+                {{/each}}
+            </select>
+            <label> Total purchased </label>
+            <input type="number" name="updateCount" id="updateCount">
+
+            <input class="btn btn-primary shadow-none" type="submit" id="UpdateSaveDonut" value="Update Order">
+            <input class="btn btn-primary shadow-none" type="button" value="cancel" onClick="browse()">
+        </form>
+    </div>
+    <div id="delete" style="display: block">
+        <form method="POST" id="deleteOrder" action="delete-order-form">
+            <legend><strong>Delete Order</strong></legend>
+            <fieldset class="fields">
+                <p>Are you sure you wish to delete the following?</p>
+                <label><strong>ID:</strong></label>
+                <label id="deleteOrderID-label"></label>
+                <input type="hidden" name="deleteOrderID" id="deleteOrderID" value="">
+            </fieldset>
+            <input class="btn btn-primary shadow-none" type="submit" id="deleteOrderButton" value="Delete Order">
+            <input class="btn btn-primary shadow-none" type="button" value="cancel" onClick="browse()">
+        </form>
+    </div>
 </div>
