@@ -93,7 +93,7 @@ app.get('/customersH', function (req, res) {
 
 app.get('/suppliersStoresH', function (req, res) {
 
-    let query1 = "SELECT * FROM SupplierStoreInter"
+    let query1 = "SELECT SupplierStoreInter.*, Suppliers.supplierName, Stores.storeName from SupplierStoreInter Join Suppliers ON SupplierStoreInter.supplierID = Suppliers.supplierID JOIN Stores ON SupplierStoreInter.storeID = Stores.storeID Order by Suppliers.supplierID "
     let query2 = "SELECT Suppliers.supplierName, Stores.storeName from SupplierStoreInter Join Suppliers ON SupplierStoreInter.supplierID = Suppliers.supplierID JOIN Stores ON SupplierStoreInter.storeID = Stores.storeID Order by Suppliers.supplierID ASC;"
     let query3 = "SELECT storeID, storeName FROM Stores"
     let query4 = "SELECT supplierID, supplierName From Suppliers"
@@ -288,6 +288,42 @@ app.post('/add-supplierStore-form', function (req, res) {
 
     query1 = `INSERT INTO SupplierStoreInter (supplierID,storeID)
                 VALUES (${data['inputSupplier']},${data['inputStore']});`;
+
+    db.pool.query(query1, function (error, rows, fields) {
+
+        if (error) {
+            console.log(error)
+            res.sendStatus(400);
+        }
+
+        else {
+            res.redirect('/suppliersStoresH');
+        }
+    })
+})
+app.post('/delete-supplierStore-form', function (req, res) {
+
+    let data = req.body;
+
+    query1 = `DELETE FROM SupplierStoreInter WHERE supplierID = ${data['deleteSupplierID']} and storeID = ${data['deleteStoreID']};`
+    console.log(query1)
+    db.pool.query(query1, function (error, rows, fields) {
+
+        if (error) {
+            console.log(error)
+            res.sendStatus(400);
+        }
+
+        else {
+            res.redirect('/suppliersStoresH');
+        }
+    })
+});
+app.post('/update-supplierStore-form', function (req, res) {
+
+    let data = req.body;
+
+    query1 = `UPDATE SupplierStoreInter SET supplierID = ${data['updateSupplier']}, storeID = ${data['updateStore']} WHERE supplierID = ${data['updateOriginalSuppplier']} AND storeID = ${data['updateOriginalStore']};`;
 
     db.pool.query(query1, function (error, rows, fields) {
 
