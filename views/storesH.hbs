@@ -1,0 +1,158 @@
+<script language="JavaScript">
+    function showform(form) {
+        if (form == 'insert') {
+            document.getElementById('browse').style.display = 'none';
+            document.getElementById('insert').style.display = 'block';
+            document.getElementById('update').style.display = 'none';
+            document.getElementById('delete').style.display = 'none';
+        }
+        else if (form == 'update') {
+            document.getElementById('browse').style.display = 'none';
+            document.getElementById('insert').style.display = 'none';
+            document.getElementById('update').style.display = 'block';
+            document.getElementById('delete').style.display = 'none';
+        }
+        else if (form == 'delete') {
+            document.getElementById('browse').style.display = 'none';
+            document.getElementById('insert').style.display = 'none';
+            document.getElementById('update').style.display = 'none';
+            document.getElementById('delete').style.display = 'block';
+        }
+        else if (form == 'all') {
+            document.getElementById('browse').style.display = 'block';
+            document.getElementById('insert').style.display = 'block';
+            document.getElementById('update').style.display = 'block';
+            document.getElementById('delete').style.display = 'block';
+        }
+        else {
+            document.getElementById('browse').style.display = 'block';
+            document.getElementById('insert').style.display = 'none';
+            document.getElementById('update').style.display = 'none';
+            document.getElementById('delete').style.display = 'none';
+        }
+    }
+    function newStore() { showform('insert'); }
+    function updateStore(pid) {
+        showform('update');
+        document.getElementById('id-update').value = pid[0]
+        document.getElementById('name-update').value = pid[1]
+        document.getElementById('description-update').value = pid[2]
+        document.getElementById('price-update').value = pid[3]
+    }
+    function deleteDonut(pid) {
+        showform('delete');
+        document.getElementById('deleteStoreID').value = pid[0]
+        document.getElementById('deleteStoreID-label').textContent = pid[0]
+    }
+    function browse() { showform('browse'); }
+    function showAll() { showform('all'); }
+</script>
+<title>Stores</title>
+
+    
+    <div id="browse">
+        <p><a href="#" onClick="showAll()">Display all forms</a> </p>
+        <div class="row justify-content-center">
+            <div class="col-auto">
+                <table id="stores-table" border="1" cellpadding="5">
+
+                    {{!-- Header section --}}
+                    <thead>
+
+                        {{!-- For just the first row, we print each key of the row object as a header cell so we know what each column means when the page renders --}}
+                        <tr>
+                            <th><a href="#" onClick="newStore()">New</a></th>
+                            <th></th>
+                            {{#each data.[0]}}
+                            <th>
+
+                                {{@key}}
+                            </th>
+                            {{/each}}
+                        </tr>
+                    </thead>
+
+                    {{!-- Body section --}}
+            <tbody>
+
+                {{!-- For each row, print the id, name, address, planet and supplier name, in order --}}
+                {{#each info}}
+
+                <tr>
+                    <td><a href="#" onClick="update([{{this.storeID}},{{this.storeName}},{{this.storeAddress}},{{this.storePlanet}},{{this.supplierID}}])">Edit</a></td>
+                    <td><a href="#" onclick="remove({{this.orderID}})">Delete</a></td>
+                    <td>{{this.storeID}}</td>
+                    <td>{{this.storeName}}</td>
+                    <td>{{this.storeAddress}}</td>
+                    <td>{{this.storePlanet}}</td>
+                    <td>{{this.supplierName}}({{this.supplierID}})</td>
+                </tr>
+                {{/each}}
+            </tbody>
+                </table>
+            </div>
+        </div>
+        <p>&nbsp;</p>
+    </div>
+
+    <div id="wrap" class="col-md-12 school-options-dropdown text-center">
+        <div id="insert">
+            <form method="POST" id="inputStore" action="/add-store-form">
+                <legend><strong>Add Store</strong></legend>
+                <fieldset class="fields">
+                    <label> Name </label>
+                    <input type="text" name="inputName" id="inputName" required>
+
+                    <label> Address </label>
+                    <input type="text" name="inputAddress" id="inputAddress" required>
+
+                    <label> Planet </label>
+                    <input type="text" name="inputPlanet" id="inputPlanet" required>
+
+                    <label> Supplier </label>
+                    <input type="text" name="inputSupplierID" id="inputSupplierID" required>
+                </fieldset>
+                <input class="btn btn-primary shadow-none" type="submit" id="addStore" value="Add Store">
+                <input class="btn btn-primary shadow-none" type="button" value="cancel" onClick="browse()">
+            </form>
+        </div>
+        <p>&nbsp;</p>
+
+        <div id="update">
+            <form method="POST" id="updateStore" action="/update-store-form">
+                <legend><strong>Update Store</strong></legend>
+                <fieldset class="fields">
+                    <input type="hidden" name="updateStoreID" id="updateStoreID" value="1">
+                
+                    <label> Name </label>
+                    <input type="text" name="updateStoreName" id="updateStoreName" value="">
+
+                    <label> Address </label>
+                    <input type="text" name="updateStoreAddress" id="updateStoreAddress" value="">
+
+                    <label> Planet </label>
+                    <input type="text" name="updateStorePlanet" id="updateStorePlanet" value="">
+
+                </fieldset>
+                <input class="btn btn-primary shadow-none" type="submit" id="UpdateSaveStore" value="Save Update Store">
+                <input class="btn btn-primary shadow-none" type="button" value="cancel" onClick="browse()">
+            </form>
+        </div>
+        <p>&nbsp;</p>
+        <div id="delete" style="display: block">
+            <form method="POST" id="deleteStore" action="delete-store-form">
+                <legend><strong>Delete Donut</strong></legend>
+                <fieldset class="fields">
+                    <p>Are you sure you wish to delete the following?</p>
+                    <label><strong>ID:</strong></label>
+                    <label id="deleteStoreID-label"></label>
+                    <input type="hidden" name="deleteStoreID" id="deleteStoreID" value="">
+
+
+                </fieldset>
+                <input class="btn btn-primary shadow-none" type="submit" id="DeleteStore" value="Delete Store">
+                <input class="btn btn-primary shadow-none" type="button" value="cancel" onClick="browse()">
+            </form>
+        </div>
+    </div>
+
