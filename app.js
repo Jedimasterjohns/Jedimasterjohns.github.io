@@ -63,6 +63,17 @@ app.get('/storesH', function (req, res) {
     // Note the call to render() and not send(). Using render() ensures the templating engine
 });
 
+app.get('/suppliersH', function (req, res) {
+    console.log("hola")
+    let query1 = "SELECT supplierID, supplierName FROM Suppliers;";               // Define our query
+
+    db.pool.query(query1, function (error, rows, fields) {    // Execute the query
+
+        res.render('suppliersH', { data: rows });                  // Render the index.hbs file, and also send the renderer
+    })
+    // Note the call to render() and not send(). Using render() ensures the templating engine
+});
+
 app.get('/ordersH', function (req, res) {
 
     let query1 = "SELECT Orders.orderID, Customers.customerFName, Donuts.donutName, Stores.storeName, Orders.totalPurchased From Orders JOIN Customers ON Orders.customerID = Customers.customerID JOIN Donuts ON Orders.donutID = Donuts.donutID JOIN Stores ON Orders.storeID = Stores.storeID LIMIT 1; ";               // Define our query
@@ -367,6 +378,62 @@ app.post('/delete-store-form', function (req, res) {
 
         else {
             res.redirect('/storesH');
+        }
+    })
+})
+app.post('/add-supplier-form', function (req, res) {
+
+    let data = req.body;
+
+    query1 = `INSERT INTO Suppliers (supplierName)
+                VALUES ('${data['inputSupplierName']}');`;
+
+    db.pool.query(query1, function (error, rows, fields) {
+
+        if (error) {
+            console.log(error)
+            res.sendStatus(400);
+        }
+
+        else {
+            res.redirect('/suppliersH');
+        }
+    })
+})
+app.post('/update-supplier-form', function (req, res) {
+
+    let data = req.body;
+
+    query1 = `UPDATE Suppliers SET supplierName = ${'\'' + data['updateSupplierName'] + '\''}
+                WHERE supplierID = ${data['updateSupplierID']};`;
+    console.log(query1)
+    db.pool.query(query1, function (error, rows, fields) {
+
+        if (error) {
+            console.log(error)
+            res.sendStatus(400);
+        }
+
+        else {
+            res.redirect('/suppliersH');
+        }
+    })
+})
+app.post('/delete-supplier-form', function (req, res) {
+
+    let data = req.body;
+
+    query1 = `DELETE FROM Suppliers WHERE supplierID = ${data['deleteSupplierID']};`
+    console.log(query1)
+    db.pool.query(query1, function (error, rows, fields) {
+
+        if (error) {
+            console.log(error)
+            res.sendStatus(400);
+        }
+
+        else {
+            res.redirect('/suppliersH');
         }
     })
 });
