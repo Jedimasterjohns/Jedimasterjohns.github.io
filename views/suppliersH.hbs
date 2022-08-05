@@ -34,28 +34,26 @@
     function insert() { showform('insert'); }
     function update(pid) {
         showform('update');
-        document.getElementById('updateStoreID').value = pid[0]
-        document.getElementById('updateStoreName').value = pid[1]
-        document.getElementById('updateStoreAddress').value = pid[2]
-        document.getElementById('updateStorePlanet').value = pid[3]
+        document.getElementById('updateSupplierID').value = pid[0]
+        document.getElementById('updateSupplierName').value = pid[1]
     }
     function remove(ids) {
         showform('delete');
         console.log(ids)
-        document.getElementById('deleteStoreID').value = ids
-        document.getElementById('deleteStoreIDLabel').textContent = ids
+        document.getElementById('deleteSupplierID').value = ids
+        document.getElementById('deleteSupplierIDLabel').textContent = ids
     }
     function browse() { showform('browse'); }
     function showAll() { showform('all'); }
 </script>
-<title>Stores</title>
+<title>Suppliers</title>
 
     
     <div id="browse">
         <p><a href="#" onClick="showAll()">Display all forms</a> </p>
         <div class="row justify-content-center">
             <div class="col-auto">
-                <table id="stores-table" border="1" cellpadding="5">
+                <table id="suppliers-table" border="1" cellpadding="5">
 
                     {{!-- Header section --}}
                 <thead>
@@ -79,12 +77,10 @@
                     {{#each data}}
 
                     <tr>
-                        <td><a href="#" onClick="update([{{this.storeID}},'{{this.storeName}}','{{this.storeAddress}}','{{this.storePlanet}}'])">Edit</a></td>
-                        <td><a href="#" onclick="remove({{this.storeID}})">Delete</a></td>
-                        <td>{{this.storeID}}</td>
-                        <td>{{this.storeName}}</td>
-                        <td>{{this.storeAddress}}</td>
-                        <td>{{this.storePlanet}}</td>
+                        <td><a href="#" onClick="update([{{this.supplierID}},'{{this.supplierName}}'])">Edit</a></td>
+                        <td><a href="#" onclick="remove({{this.supplierID}})">Delete</a></td>
+                        <td>{{this.supplierID}}</td>
+                        <td>{{this.supplierName}}</td>
                     </tr>
                     {{/each}}
                 </tbody>
@@ -97,57 +93,44 @@
 
     <div id="wrap" class="col-md-12 school-options-dropdown text-center">
         <div id="insert">
-            <form method="POST" id="inputStore" action="/add-store-form">
-                <legend><strong>Add Store</strong></legend>
+            <form method="POST" id="inputSupplier" action="/add-supplier-form">
+                <legend><strong>Add Supplier</strong></legend>
                 <fieldset class="fields">
                     <label> Name </label>
-                    <input type="text" name="inputStoreName" id="inputStoreName" required>
-
-                    <label> Address </label>
-                    <input type="text" name="inputStoreAddress" id="inputStoreAddress" required>
-
-                    <label> Planet </label>
-                    <input type="text" name="inputStorePlanet" id="inputStorePlanet" required>
+                    <input type="text" name="inputSupplierName" id="inputSupplierName" required>
                 </fieldset>
-                <input class="btn btn-primary shadow-none" type="submit" id="addStore" value="Add Store">
+                <input class="btn btn-primary shadow-none" type="submit" id="addSupplier" value="Add Supplier">
                 <input class="btn btn-primary shadow-none" type="button" value="cancel" onClick="browse()">
             </form>
         </div>
         <p>&nbsp;</p>
 
         <div id="update">
-            <form method="POST" id="updateStore" action="/update-store-form">
-                <legend><strong>Update Store</strong></legend>
+            <form method="POST" id="updateSupplier" action="/update-supplier-form">
+                <legend><strong>Update Supplier</strong></legend>
                 <fieldset class="fields">
-                    <input type="hidden" name="updateStoreID" id="updateStoreID" value="1">
+                    <input type="hidden" name="updateSupplierID" id="updateSupplierID" value="1">
                 
                     <label> Name </label>
-                    <input type="text" name="updateStoreName" id="updateStoreName" value="">
-
-                    <label> Address </label>
-                    <input type="text" name="updateStoreAddress" id="updateStoreAddress" value="">
-
-                    <label> Planet </label>
-                    <input type="text" name="updateStorePlanet" id="updateStorePlanet" value="">
+                    <input type="text" name="updateSupplierName" id="updateSupplierName" value="">
 
                 </fieldset>
-                <input class="btn btn-primary shadow-none" type="submit" id="updateSaveStore" value="Update Store">
+                <input class="btn btn-primary shadow-none" type="submit" id="updateSaveSupplier" value="Update Supplier">
                 <input class="btn btn-primary shadow-none" type="button" value="cancel" onClick="browse()">
             </form>
         </div>
         <p>&nbsp;</p>
         <div id="delete" style="display: block">
-            <form method="POST" id="deleteStore" action="delete-store-form">
-                <legend><strong>Delete Store</strong></legend>
+            <form method="POST" id="deleteSupplier" action="delete-supplier-form">
+                <legend><strong>Delete Supplier</strong></legend>
                 <fieldset class="fields">
                     <p>Are you sure you wish to delete the following?</p>
                     <label><strong>ID:</strong></label>
-                    <label id="deleteStoreIDLabel"></label>
-                    <input type="hidden" name="deleteStoreID" id="deleteStoreID" value="">
-
+                    <label id="deleteSupplierIDLabel"></label>
+                    <input type="hidden" name="deleteSupplierID" id="deleteSupplierID" value="">
 
                 </fieldset>
-                <input class="btn btn-primary shadow-none" type="submit" id="deleteStoreButton" value="Delete Store">
+                <input class="btn btn-primary shadow-none" type="submit" id="deleteSupplierButton" value="Delete Supplier">
                 <input class="btn btn-primary shadow-none" type="button" value="cancel" onClick="browse()">
             </form>
         </div>

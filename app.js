@@ -54,11 +54,22 @@ app.get('/donutsH', function (req, res) {
 
 app.get('/storesH', function (req, res) {
     console.log("hola")
-    let query1 = "SELECT * FROM Stores;";               // Define our query
+    let query1 = "SELECT storeID, storeName, storeAddress, storePlanet FROM Stores;";               // Define our query
 
     db.pool.query(query1, function (error, rows, fields) {    // Execute the query
 
         res.render('storesH', { data: rows });                  // Render the index.hbs file, and also send the renderer
+    })
+    // Note the call to render() and not send(). Using render() ensures the templating engine
+});
+
+app.get('/suppliersH', function (req, res) {
+    console.log("hola")
+    let query1 = "SELECT supplierID, supplierName FROM Suppliers;";               // Define our query
+
+    db.pool.query(query1, function (error, rows, fields) {    // Execute the query
+
+        res.render('suppliersH', { data: rows });                  // Render the index.hbs file, and also send the renderer
     })
     // Note the call to render() and not send(). Using render() ensures the templating engine
 });
@@ -317,8 +328,8 @@ app.post('/add-store-form', function (req, res) {
 
     let data = req.body;
 
-    query1 = `INSERT INTO Stores (storeName, storeAddress, storePlanet, supplierID)
-                VALUES (${data['inputStoreName']},${data['inputStoreAddress']},${data['inputStorePlanet']},${data['inputSupplierID']});`;
+    query1 = `INSERT INTO  Stores (storeName, storeAddress, storePlanet)
+                VALUES ('${data['inputStoreName']}','${data['inputStoreAddress']}','${data['inputStorePlanet']}');`;
 
     db.pool.query(query1, function (error, rows, fields) {
 
@@ -336,7 +347,8 @@ app.post('/update-store-form', function (req, res) {
 
     let data = req.body;
 
-    query1 = `UPDATE Stores SET storeName = ${data['updateStoreName']}, storeAddress = ${data['updateStoreAddress']}, storePlanet = ${data['updateStorePlanet']}
+    query1 = `UPDATE Stores SET storeName = ${'\'' + data['updateStoreName'] + '\''
+                }, storeAddress = ${'\'' + data['updateStoreAddress'] + '\''}, storePlanet = ${'\'' + data['updateStorePlanet'] + '\''}
                 WHERE storeID = ${data['updateStoreID']};`;
     console.log(query1)
     db.pool.query(query1, function (error, rows, fields) {
@@ -351,6 +363,80 @@ app.post('/update-store-form', function (req, res) {
         }
     })
 })
+app.post('/delete-store-form', function (req, res) {
+
+    let data = req.body;
+
+    query1 = `DELETE FROM Stores WHERE storeID = ${data['deleteStoreID']};`
+    console.log(query1)
+    db.pool.query(query1, function (error, rows, fields) {
+
+        if (error) {
+            console.log(error)
+            res.sendStatus(400);
+        }
+
+        else {
+            res.redirect('/storesH');
+        }
+    })
+})
+app.post('/add-supplier-form', function (req, res) {
+
+    let data = req.body;
+
+    query1 = `INSERT INTO Suppliers (supplierName)
+                VALUES ('${data['inputSupplierName']}');`;
+
+    db.pool.query(query1, function (error, rows, fields) {
+
+        if (error) {
+            console.log(error)
+            res.sendStatus(400);
+        }
+
+        else {
+            res.redirect('/suppliersH');
+        }
+    })
+})
+app.post('/update-supplier-form', function (req, res) {
+
+    let data = req.body;
+
+    query1 = `UPDATE Suppliers SET supplierName = ${'\'' + data['updateSupplierName'] + '\''}
+                WHERE supplierID = ${data['updateSupplierID']};`;
+    console.log(query1)
+    db.pool.query(query1, function (error, rows, fields) {
+
+        if (error) {
+            console.log(error)
+            res.sendStatus(400);
+        }
+
+        else {
+            res.redirect('/suppliersH');
+        }
+    })
+})
+app.post('/delete-supplier-form', function (req, res) {
+
+    let data = req.body;
+
+    query1 = `DELETE FROM Suppliers WHERE supplierID = ${data['deleteSupplierID']};`
+    console.log(query1)
+    db.pool.query(query1, function (error, rows, fields) {
+
+        if (error) {
+            console.log(error)
+            res.sendStatus(400);
+        }
+
+        else {
+            res.redirect('/suppliersH');
+        }
+    })
+});
 /*
     LISTENER
 */
