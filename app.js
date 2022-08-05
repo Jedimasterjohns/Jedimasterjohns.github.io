@@ -104,7 +104,7 @@ app.get('/customersH', function (req, res) {
 
 app.get('/suppliersStoresH', function (req, res) {
 
-    let query1 = "SELECT * FROM SupplierStoreInter"
+    let query1 = "SELECT SupplierStoreInter.*, Suppliers.supplierName, Stores.storeName from SupplierStoreInter Join Suppliers ON SupplierStoreInter.supplierID = Suppliers.supplierID JOIN Stores ON SupplierStoreInter.storeID = Stores.storeID Order by Suppliers.supplierID "
     let query2 = "SELECT Suppliers.supplierName, Stores.storeName from SupplierStoreInter Join Suppliers ON SupplierStoreInter.supplierID = Suppliers.supplierID JOIN Stores ON SupplierStoreInter.storeID = Stores.storeID Order by Suppliers.supplierID ASC;"
     let query3 = "SELECT storeID, storeName FROM Stores"
     let query4 = "SELECT supplierID, supplierName From Suppliers"
@@ -351,24 +351,6 @@ app.post('/update-store-form', function (req, res) {
         }
     })
 })
-app.post('/delete-store-form', function (req, res) {
-
-    let data = req.body;
-
-    query1 = `DELETE FROM Stores WHERE storeID = ${data['deleteStoreID']};`
-    console.log(query1)
-    db.pool.query(query1, function (error, rows, fields) {
-
-        if (error) {
-            console.log(error)
-            res.sendStatus(400);
-        }
-
-        else {
-            res.redirect('/storesH');
-        }
-    })
-});
 /*
     LISTENER
 */
