@@ -52,6 +52,17 @@ app.get('/donutsH', function (req, res) {
     // Note the call to render() and not send(). Using render() ensures the templating engine
 });
 
+app.get('/storesH', function (req, res) {
+    console.log("hola")
+    let query1 = "SELECT * FROM Stores;";               // Define our query
+
+    db.pool.query(query1, function (error, rows, fields) {    // Execute the query
+
+        res.render('storesH', { data: rows });                  // Render the index.hbs file, and also send the renderer
+    })
+    // Note the call to render() and not send(). Using render() ensures the templating engine
+});
+
 app.get('/ordersH', function (req, res) {
 
     let query1 = "SELECT Orders.orderID, Customers.customerFName, Donuts.donutName, Stores.storeName, Orders.totalPurchased From Orders JOIN Customers ON Orders.customerID = Customers.customerID JOIN Donuts ON Orders.donutID = Donuts.donutID JOIN Stores ON Orders.storeID = Stores.storeID LIMIT 1; ";               // Define our query
@@ -301,11 +312,32 @@ app.post('/add-supplierStore-form', function (req, res) {
         }
     })
 })
-app.post('/delete-supplierStore-form', function (req, res) {
+
+app.post('/add-store-form', function (req, res) {
 
     let data = req.body;
 
-    query1 = `DELETE FROM SupplierStoreInter WHERE supplierID = ${data['deleteSupplierID']} and storeID = ${data['deleteStoreID']};`
+    query1 = `INSERT INTO Stores (storeName, storeAddress, storePlanet, supplierID)
+                VALUES (${data['inputStoreName']},${data['inputStoreAddress']},${data['inputStorePlanet']},${data['inputSupplierID']});`;
+
+    db.pool.query(query1, function (error, rows, fields) {
+
+        if (error) {
+            console.log(error)
+            res.sendStatus(400);
+        }
+
+        else {
+            res.redirect('/storesH');
+        }
+    })
+})
+app.post('/update-store-form', function (req, res) {
+
+    let data = req.body;
+
+    query1 = `UPDATE Stores SET storeName = ${data['updateStoreName']}, storeAddress = ${data['updateStoreAddress']}, storePlanet = ${data['updateStorePlanet']}
+                WHERE storeID = ${data['updateStoreID']};`;
     console.log(query1)
     db.pool.query(query1, function (error, rows, fields) {
 
@@ -315,25 +347,7 @@ app.post('/delete-supplierStore-form', function (req, res) {
         }
 
         else {
-            res.redirect('/suppliersStoresH');
-        }
-    })
-});
-app.post('/update-supplierStore-form', function (req, res) {
-
-    let data = req.body;
-
-    query1 = `UPDATE SupplierStoreInter SET supplierID = ${data['updateSupplier']}, storeID = ${data['updateStore']} WHERE supplierID = ${data['updateOriginalSuppplier']} AND storeID = ${data['updateOriginalStore']};`;
-
-    db.pool.query(query1, function (error, rows, fields) {
-
-        if (error) {
-            console.log(error)
-            res.sendStatus(400);
-        }
-
-        else {
-            res.redirect('/suppliersStoresH');
+            res.redirect('/storesH');
         }
     })
 })
