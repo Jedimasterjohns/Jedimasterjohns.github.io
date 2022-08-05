@@ -336,7 +336,8 @@ app.post('/update-store-form', function (req, res) {
 
     let data = req.body;
 
-    query1 = `UPDATE Stores SET storeName = ${data['updateStoreName']}, storeAddress = ${data['updateStoreAddress']}, storePlanet = ${data['updateStorePlanet']}
+    query1 = `UPDATE Stores SET storeName = ${'\'' + data['updateStoreName'] + '\''
+                }, storeAddress = ${'\'' + data['updateStoreAddress'] + '\''}, storePlanet = ${'\'' + data['updateStorePlanet'] + '\''}
                 WHERE storeID = ${data['updateStoreID']};`;
     console.log(query1)
     db.pool.query(query1, function (error, rows, fields) {
@@ -351,6 +352,24 @@ app.post('/update-store-form', function (req, res) {
         }
     })
 })
+app.post('/delete-store-form', function (req, res) {
+
+    let data = req.body;
+
+    query1 = `DELETE FROM Stores WHERE storeID = ${data['deleteStoreID']};`
+    console.log(query1)
+    db.pool.query(query1, function (error, rows, fields) {
+
+        if (error) {
+            console.log(error)
+            res.sendStatus(400);
+        }
+
+        else {
+            res.redirect('/storesH');
+        }
+    })
+});
 /*
     LISTENER
 */

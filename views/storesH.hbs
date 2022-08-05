@@ -31,18 +31,19 @@
             document.getElementById('delete').style.display = 'none';
         }
     }
-    function newStore() { showform('insert'); }
-    function updateStore(pid) {
+    function insert() { showform('insert'); }
+    function update(pid) {
         showform('update');
-        document.getElementById('id-update').value = pid[0]
-        document.getElementById('name-update').value = pid[1]
-        document.getElementById('description-update').value = pid[2]
-        document.getElementById('price-update').value = pid[3]
+        document.getElementById('updateStoreID').value = pid[0]
+        document.getElementById('updateStoreName').value = pid[1]
+        document.getElementById('updateStoreAddress').value = pid[2]
+        document.getElementById('updateStorePlanet').value = pid[3]
     }
-    function deleteDonut(pid) {
+    function remove(ids) {
         showform('delete');
-        document.getElementById('deleteStoreID').value = pid[0]
-        document.getElementById('deleteStoreID-label').textContent = pid[0]
+        console.log(ids)
+        document.getElementById('deleteStoreID').value = ids
+        document.getElementById('deleteStoreIDLabel').textContent = ids
     }
     function browse() { showform('browse'); }
     function showAll() { showform('all'); }
@@ -130,23 +131,23 @@
                     <input type="text" name="updateStorePlanet" id="updateStorePlanet" value="">
 
                 </fieldset>
-                <input class="btn btn-primary shadow-none" type="submit" id="UpdateSaveStore" value="Save Update Store">
+                <input class="btn btn-primary shadow-none" type="submit" id="updateSaveStore" value="Update Store">
                 <input class="btn btn-primary shadow-none" type="button" value="cancel" onClick="browse()">
             </form>
         </div>
         <p>&nbsp;</p>
         <div id="delete" style="display: block">
             <form method="POST" id="deleteStore" action="delete-store-form">
-                <legend><strong>Delete Donut</strong></legend>
+                <legend><strong>Delete Store</strong></legend>
                 <fieldset class="fields">
                     <p>Are you sure you wish to delete the following?</p>
                     <label><strong>ID:</strong></label>
-                    <label id="deleteStoreID-label"></label>
+                    <label id="deleteStoreIDLabel"></label>
                     <input type="hidden" name="deleteStoreID" id="deleteStoreID" value="">
 
 
                 </fieldset>
-                <input class="btn btn-primary shadow-none" type="submit" id="DeleteStore" value="Delete Store">
+                <input class="btn btn-primary shadow-none" type="submit" id="deleteStoreButton" value="Delete Store">
                 <input class="btn btn-primary shadow-none" type="button" value="cancel" onClick="browse()">
             </form>
         </div>
