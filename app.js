@@ -54,7 +54,7 @@ app.get('/donutsH', function (req, res) {
 
 app.get('/storesH', function (req, res) {
     console.log("hola")
-    let query1 = "SELECT * FROM Stores;";               // Define our query
+    let query1 = "SELECT storeID, storeName, storeAddress, storePlanet FROM Stores;";               // Define our query
 
     db.pool.query(query1, function (error, rows, fields) {    // Execute the query
 
@@ -317,8 +317,8 @@ app.post('/add-store-form', function (req, res) {
 
     let data = req.body;
 
-    query1 = `INSERT INTO Stores (storeName, storeAddress, storePlanet, supplierID)
-                VALUES (${data['inputStoreName']},${data['inputStoreAddress']},${data['inputStorePlanet']},${data['inputSupplierID']});`;
+    query1 = `INSERT INTO  Stores (storeName, storeAddress, storePlanet)
+                VALUES ('${data['inputStoreName']}','${data['inputStoreAddress']}','${data['inputStorePlanet']}');`;
 
     db.pool.query(query1, function (error, rows, fields) {
 
