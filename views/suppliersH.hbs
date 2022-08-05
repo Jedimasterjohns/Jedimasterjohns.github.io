@@ -1,0 +1,138 @@
+<script language="JavaScript">
+    function showform(form) {
+        if (form == 'insert') {
+            document.getElementById('browse').style.display = 'none';
+            document.getElementById('insert').style.display = 'block';
+            document.getElementById('update').style.display = 'none';
+            document.getElementById('delete').style.display = 'none';
+        }
+        else if (form == 'update') {
+            document.getElementById('browse').style.display = 'none';
+            document.getElementById('insert').style.display = 'none';
+            document.getElementById('update').style.display = 'block';
+            document.getElementById('delete').style.display = 'none';
+        }
+        else if (form == 'delete') {
+            document.getElementById('browse').style.display = 'none';
+            document.getElementById('insert').style.display = 'none';
+            document.getElementById('update').style.display = 'none';
+            document.getElementById('delete').style.display = 'block';
+        }
+        else if (form == 'all') {
+            document.getElementById('browse').style.display = 'block';
+            document.getElementById('insert').style.display = 'block';
+            document.getElementById('update').style.display = 'block';
+            document.getElementById('delete').style.display = 'block';
+        }
+        else {
+            document.getElementById('browse').style.display = 'block';
+            document.getElementById('insert').style.display = 'none';
+            document.getElementById('update').style.display = 'none';
+            document.getElementById('delete').style.display = 'none';
+        }
+    }
+    function insert() { showform('insert'); }
+    function update(pid) {
+        showform('update');
+        document.getElementById('updateSupplierID').value = pid[0]
+        document.getElementById('updateSupplierName').value = pid[1]
+    }
+    function remove(ids) {
+        showform('delete');
+        console.log(ids)
+        document.getElementById('deleteSupplierID').value = ids
+        document.getElementById('deleteSupplierIDLabel').textContent = ids
+    }
+    function browse() { showform('browse'); }
+    function showAll() { showform('all'); }
+</script>
+<title>Suppliers</title>
+
+    
+    <div id="browse">
+        <p><a href="#" onClick="showAll()">Display all forms</a> </p>
+        <div class="row justify-content-center">
+            <div class="col-auto">
+                <table id="suppliers-table" border="1" cellpadding="5">
+
+                    {{!-- Header section --}}
+                <thead>
+
+                    {{!-- For just the first row, we print each key of the row object as a header cell so we know what each column means when the page renders --}}
+                    <tr>
+                        <th><a href="#" onClick="insert()">New</a></th>
+                        <th></th>
+                        {{#each data.[0]}}
+                        <th>
+
+                            {{@key}}
+                        </th>
+                        {{/each}}
+                    </tr>
+                </thead>
+
+                {{!-- Body section --}}
+                <tbody>
+
+                    {{#each data}}
+
+                    <tr>
+                        <td><a href="#" onClick="update([{{this.supplierID}},'{{this.supplierName}}'])">Edit</a></td>
+                        <td><a href="#" onclick="remove({{this.supplierID}})">Delete</a></td>
+                        <td>{{this.supplierID}}</td>
+                        <td>{{this.supplierName}}</td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+        <p>&nbsp;</p>
+    </div>
+
+    <div id="wrap" class="col-md-12 school-options-dropdown text-center">
+        <div id="insert">
+            <form method="POST" id="inputSupplier" action="/add-supplier-form">
+                <legend><strong>Add Supplier</strong></legend>
+                <fieldset class="fields">
+                    <label> Name </label>
+                    <input type="text" name="inputSupplierName" id="inputSupplierName" required>
+                </fieldset>
+                <input class="btn btn-primary shadow-none" type="submit" id="addSupplier" value="Add Supplier">
+                <input class="btn btn-primary shadow-none" type="button" value="cancel" onClick="browse()">
+            </form>
+        </div>
+        <p>&nbsp;</p>
+
+        <div id="update">
+            <form method="POST" id="updateSupplier" action="/update-supplier-form">
+                <legend><strong>Update Supplier</strong></legend>
+                <fieldset class="fields">
+                    <input type="hidden" name="updateSupplierID" id="updateSupplierID" value="1">
+                
+                    <label> Name </label>
+                    <input type="text" name="updateSupplierName" id="updateSupplierName" value="">
+
+                </fieldset>
+                <input class="btn btn-primary shadow-none" type="submit" id="updateSaveSupplier" value="Update Supplier">
+                <input class="btn btn-primary shadow-none" type="button" value="cancel" onClick="browse()">
+            </form>
+        </div>
+        <p>&nbsp;</p>
+        <div id="delete" style="display: block">
+            <form method="POST" id="deleteSupplier" action="delete-supplier-form">
+                <legend><strong>Delete Supplier</strong></legend>
+                <fieldset class="fields">
+                    <p>Are you sure you wish to delete the following?</p>
+                    <label><strong>ID:</strong></label>
+                    <label id="deleteSupplierIDLabel"></label>
+                    <input type="hidden" name="deleteSupplierID" id="deleteSupplierID" value="">
+
+                </fieldset>
+                <input class="btn btn-primary shadow-none" type="submit" id="deleteSupplierButton" value="Delete Supplier">
+                <input class="btn btn-primary shadow-none" type="button" value="cancel" onClick="browse()">
+            </form>
+        </div>
+    </div>
+
