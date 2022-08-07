@@ -91,7 +91,13 @@
                         <td><a href="#" onclick="remove({{this.orderID}})">Delete</a></td>
                         <td>{{this.orderID}}</td>
                         <td>{{this.customerFName}}({{this.customerID}})</td>
-                        <td>{{this.donutName}}({{this.donutID}})</td>
+                        <td>
+                        {{#if this.donutName}}
+                        {{this.donutName}}({{this.donutID}})
+                        {{else}}
+                        NULL
+                        {{/if}}
+                        </td>
                         <td>{{this.storeName}}({{this.storeID}})</td>
                         <td>{{this.totalPurchased}}</td>
                     </tr>
@@ -122,6 +128,7 @@
                 {{#each donutData}}
                 <option value="{{this.donutID}}">{{this.donutName}}({{this.donutID}})</option>
                 {{/each}}
+                <option value="NULL">NULL</option>
             </select>
             <label> Store </label>
             <select name="inputStore" id="inputStore">
@@ -155,6 +162,7 @@
                 {{#each donutData}}
                 <option value="{{this.donutID}}">{{this.donutName}}({{this.donutID}})</option>
                 {{/each}}
+                <option value="NULL">NULL</option>
             </select>
             <label> Store </label>
             <select name="updateStore" id="updateStore">

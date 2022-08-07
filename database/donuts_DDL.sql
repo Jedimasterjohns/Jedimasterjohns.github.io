@@ -68,7 +68,7 @@ INSERT INTO Stores (storeID, storeName, storeAddress, storePlanet)
 CREATE OR REPLACE TABLE Orders (
     orderID int UNIQUE NOT NULL AUTO_INCREMENT,
     customerID int NOT NULL,
-    donutID int NOT NULL,
+    donutID int,
     storeID int NOT NULL,
     totalPurchased int NOT NULL,
     PRIMARY KEY (orderID),
@@ -78,7 +78,7 @@ CREATE OR REPLACE TABLE Orders (
 );
 
 INSERT INTO Orders (orderID, customerID, donutID, totalPurchased, storeID)
-VALUES (1, 1, 1, 4,1), (2, 2, 2, 1,2), (3, 3, 2, 44,3);
+VALUES (1, 1, 1, 4,1), (2, 2, 2, 1,2), (3, 3, NULL, 44,3);
 
 
 

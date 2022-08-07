@@ -36,7 +36,7 @@ app.get('/', function (req, res) {
 
     db.pool.query(query1, function (error, rows, fields) {    // Execute the query
 
-        res.render('customersH', { data: rows });                  // Render the index.hbs file, and also send the renderer
+        res.render('customersH', { data: rows });                  // Render the hbs file, and also send the renderer
     })
     // Note the call to render() and not send(). Using render() ensures the templating engine
 });                                         // will process this file, before sending the finished HTML to the client.
@@ -47,7 +47,7 @@ app.get('/donutsH', function (req, res) {
 
     db.pool.query(query1, function (error, rows, fields) {    // Execute the query
 
-        res.render('donutsH', { data: rows });                 // Render the index.hbs file, and also send the renderer               
+        res.render('donutsH', { data: rows });                 // Render the hbs file, and also send the renderer               
     })
     // Note the call to render() and not send(). Using render() ensures the templating engine
 });
@@ -58,7 +58,7 @@ app.get('/storesH', function (req, res) {
 
     db.pool.query(query1, function (error, rows, fields) {    // Execute the query
 
-        res.render('storesH', { data: rows });                  // Render the index.hbs file, and also send the renderer
+        res.render('storesH', { data: rows });                  // Render the hbs file, and also send the renderer
     })
     // Note the call to render() and not send(). Using render() ensures the templating engine
 });
@@ -69,7 +69,7 @@ app.get('/suppliersH', function (req, res) {
 
     db.pool.query(query1, function (error, rows, fields) {    // Execute the query
 
-        res.render('suppliersH', { data: rows });                  // Render the index.hbs file, and also send the renderer
+        res.render('suppliersH', { data: rows });                  // Render the hbs file, and also send the renderer
     })
     // Note the call to render() and not send(). Using render() ensures the templating engine
 });
@@ -77,7 +77,7 @@ app.get('/suppliersH', function (req, res) {
 app.get('/ordersH', function (req, res) {
 
     let query1 = "SELECT Orders.orderID, Customers.customerFName, Donuts.donutName, Stores.storeName, Orders.totalPurchased From Orders JOIN Customers ON Orders.customerID = Customers.customerID JOIN Donuts ON Orders.donutID = Donuts.donutID JOIN Stores ON Orders.storeID = Stores.storeID LIMIT 1; ";               // Define our query
-    let query2 = "SELECT Orders.* , Customers.customerFName, Donuts.donutName, Stores.storeName From Orders JOIN Customers ON Orders.customerID = Customers.customerID JOIN Donuts ON Orders.donutID = Donuts.donutID JOIN Stores ON Orders.storeID = Stores.storeID;"
+    let query2 = "SELECT Orders.* , Customers.customerFName, Donuts.donutName, Stores.storeName From Orders JOIN Customers ON Orders.customerID = Customers.customerID LEFT JOIN Donuts ON Orders.donutID = Donuts.donutID JOIN Stores ON Orders.storeID = Stores.storeID;"
     let query3 = "SELECT customerID, customerFName, customerLName FROM Customers;"
     let query4 = "Select storeID, storeName FROM Stores;"
     let query5 = "Select donutID, donutName From Donuts;"
@@ -86,7 +86,7 @@ app.get('/ordersH', function (req, res) {
             db.pool.query(query3, (error, q3, fields) => {
                 db.pool.query(query4, (error, q4, fields) => {
                     db.pool.query(query5, (error, q5, fields) => {
-                        res.render('ordersH', { data: q1, info: q2, customerData: q3, storeData: q4, donutData: q5 });                  // Render the index.hbs file, and also send the renderer
+                        res.render('ordersH', { data: q1, info: q2, customerData: q3, storeData: q4, donutData: q5 });                  // Render the hbs file, and also send the renderer
                     })
                 })                 
             })
@@ -109,7 +109,7 @@ app.get('/customersH', function (req, res) {
     }
     db.pool.query(query1, function (error, rows, fields) {    // Execute the query
 
-        res.render('customersH', { data: rows });                  // Render the index.hbs file, and also send the renderer
+        res.render('customersH', { data: rows });                  // Render the hbs file, and also send the renderer
     })
 });
 
@@ -123,10 +123,10 @@ app.get('/suppliersStoresH', function (req, res) {
         db.pool.query(query2, (error, q2, fields) => {
             db.pool.query(query3, (error, q3, fields) => {
                 db.pool.query(query4, (error, q4, fields) => {
-                    res.render('suppliersStoresH', { data: q1, names: q2, storeData: q3, supplierData: q4 });                  // Render the index.hbs file, and also send the renderer
-                })                // Render the index.hbs file, and also send the renderer
-            })                         // Render the index.hbs file, and also send the renderer
-        })                       // Render the index.hbs file, and also send the renderer
+                    res.render('suppliersStoresH', { data: q1, names: q2, storeData: q3, supplierData: q4 });                  // Render the hbs file, and also send the renderer
+                })                
+            })                         
+        })                       
     })
 });
 
@@ -138,7 +138,7 @@ app.post('/add-person-form', function (req, res) {
     query1 = `INSERT INTO  Customers (customerFName, customerLName, customerEmail, customerAddress, customerPlanet)
                 VALUES ('${data['insert-fname']}','${data['insert-lname']}','${data['insert-email']}','${data['insert-customer-address']}','${data['insert-customer-planet']}');`;
 
-    db.pool.query(query1, function (error, rows, fields) {
+    db.pool.query(query1, function (error, rows, fields) { // Execute the query
 
         if (error) {
             console.log(error)
@@ -146,7 +146,7 @@ app.post('/add-person-form', function (req, res) {
         }
 
         else {
-            res.redirect('/customersH');
+            res.redirect('/customersH'); // Render the hbs file, and also send the renderer
         }
     })
 })
@@ -164,7 +164,7 @@ app.post('/delete-person-form', function (req, res) {
         }
 
         else {
-            res.redirect('/customersH');
+            res.redirect('/customersH'); // Render the hbs file, and also send the renderer
         }
     })
 });
@@ -177,15 +177,15 @@ app.post('/update-person-form', function (req, res) {
 }, customerLName = ${ '\''+data['lname-update']+'\''}, customerEmail = ${ '\''+data['email-update']+'\''}, customerAddress = ${ '\''+data['address-update']+'\''}, customerPlanet = ${ '\''+data['planet-update']+'\''}
               WHERE customerID = ${data['id-update']};`;
 
-    db.pool.query(query1, function (error, rows, fields) {
+    db.pool.query(query1, function (error, rows, fields) { // Execute the query
 
-        if (error) {
+        if (error) {                 // Error handling
             console.log(error)
             res.sendStatus(400);
         }
 
         else {
-            res.redirect('/customersH');
+            res.redirect('/customersH'); // Render the hbs file, and also send the renderer
         }
     })
 })
@@ -197,7 +197,7 @@ app.post('/add-donut-form', function (req, res) {
     query1 = `INSERT INTO Donuts (donutName, donutDescription, donutPrice)
                 VALUES ('${data['insert-name']}','${data['insert-description']}','${data['insert-price']}');`;
 
-    db.pool.query(query1, function (error, rows, fields) {
+    db.pool.query(query1, function (error, rows, fields) { // Execute the query
 
         if (error) {
             console.log(error)
@@ -205,7 +205,7 @@ app.post('/add-donut-form', function (req, res) {
         }
 
         else {
-            res.redirect('/donutsH');
+            res.redirect('/donutsH'); // Render the hbs file, and also send the renderer
         }
     })
 })
@@ -214,7 +214,7 @@ app.post('/delete-donut-form', function (req, res) {
     let data = req.body;
 
     query2 = `DELETE FROM Donuts WHERE donutID = ${data['deleteDonutID']};`
-    db.pool.query(query2, function (error, rows, fields) {
+    db.pool.query(query2, function (error, rows, fields) {                  // Execute the query
 
         if (error) {
             console.log(error)
@@ -222,7 +222,7 @@ app.post('/delete-donut-form', function (req, res) {
         }
 
         else {
-            res.redirect('/donutsH');
+            res.redirect('/donutsH'); // Render the hbs file, and also send the renderer
         }
     })
 });
@@ -234,7 +234,7 @@ app.post('/update-donut-form', function (req, res) {
                 }, donutDescription = ${'\'' + data['description-update'] + '\''}, donutPrice = ${'\'' + data['price-update'] + '\''}
                 WHERE donutID = ${data['id-update']};`;
 
-    db.pool.query(query1, function (error, rows, fields) {
+    db.pool.query(query1, function (error, rows, fields) { // Execute the query
 
         if (error) {
             console.log(error)
@@ -242,7 +242,7 @@ app.post('/update-donut-form', function (req, res) {
         }
 
         else {
-            res.redirect('/donutsH');
+            res.redirect('/donutsH');               // Render the hbs file, and also send the renderer
         }
     })
 })
@@ -251,18 +251,23 @@ app.post('/add-order-form', function (req, res) {
 
     let data = req.body;
 
-    query1 = `INSERT INTO Orders (customerID,donutID,storeID,totalPurchased)
-                VALUES (${data['inputCustomer']},${data['inputDonut']},${data['inputStore']},${data['inputCount']});`;
+    let donut = parseInt(data['inputDonut']);
+    if (isNaN(donut)) {
+        donut = 'NULL';
+    }
 
-    db.pool.query(query1, function (error, rows, fields) {
+    query1 = `INSERT INTO Orders (customerID,donutID,storeID,totalPurchased)
+                VALUES (${data['inputCustomer']},${donut},${data['inputStore']},${data['inputCount']});`;
+
+    db.pool.query(query1, function (error, rows, fields) { // Execute the query
 
         if (error) {
-            console.log(error)
+            console.log(error)                             // Error Handling
             res.sendStatus(400);
         }
 
         else {
-            res.redirect('/ordersH');
+            res.redirect('/ordersH');                   // Render the hbs file, and also send the renderer
         }
     })
 })
@@ -270,10 +275,15 @@ app.post('/update-order-form', function (req, res) {
 
     let data = req.body;
 
-    query1 = `UPDATE Orders SET customerID = ${data['updateCustomer']}, donutID = ${data['updateDonut']}, storeID = ${data['updateStore']}, totalPurchased = ${data['updateCount']}
+    let donut = parseInt(data['updateDonut']);
+    if (isNaN(donut)) {
+        donut = 'NULL';
+    }
+
+    query1 = `UPDATE Orders SET customerID = ${data['updateCustomer']}, donutID = ${donut}, storeID = ${data['updateStore']}, totalPurchased = ${data['updateCount']}
                 WHERE orderID = ${data['updateOrderID']};`;
     console.log(query1)
-    db.pool.query(query1, function (error, rows, fields) {
+    db.pool.query(query1, function (error, rows, fields) { // Execute the query
 
         if (error) {
             console.log(error)
@@ -281,7 +291,7 @@ app.post('/update-order-form', function (req, res) {
         }
 
         else {
-            res.redirect('/ordersH');
+            res.redirect('/ordersH');                       // Render the hbs file, and also send the renderer
         }
     })
 })
@@ -291,7 +301,7 @@ app.post('/delete-order-form', function (req, res) {
 
     query1 = `DELETE FROM Orders WHERE orderID = ${data['deleteOrderID']};`
     console.log(query1)
-    db.pool.query(query1, function (error, rows, fields) {
+    db.pool.query(query1, function (error, rows, fields) {  // Execute the query
 
         if (error) {
             console.log(error)
@@ -299,7 +309,7 @@ app.post('/delete-order-form', function (req, res) {
         }
 
         else {
-            res.redirect('/ordersH');
+            res.redirect('/ordersH');                   // Render the hbs file, and also send the renderer
         }
     })
 });
@@ -311,15 +321,15 @@ app.post('/add-supplierStore-form', function (req, res) {
     query1 = `INSERT INTO SupplierStoreInter (supplierID,storeID)
                 VALUES (${data['inputSupplier']},${data['inputStore']});`;
 
-    db.pool.query(query1, function (error, rows, fields) {
+    db.pool.query(query1, function (error, rows, fields) {      // Execute the query
 
-        if (error) {
+        if (error) {                                            // Error Handling
             console.log(error)
             res.sendStatus(400);
         }
 
         else {
-            res.redirect('/suppliersStoresH');
+            res.redirect('/suppliersStoresH');                  // Render the hbs file, and also send the renderer
         }
     })
 })
@@ -329,15 +339,15 @@ app.post('/delete-supplierStore-form', function (req, res) {
 
     query1 = `DELETE FROM SupplierStoreInter WHERE supplierID = ${data['deleteSupplierID']} and storeID = ${data['deleteStoreID']};`
     console.log(query1)
-    db.pool.query(query1, function (error, rows, fields) {
+    db.pool.query(query1, function (error, rows, fields) {  // Execute the query
 
-        if (error) {
+        if (error) {                                        // Error Handling
             console.log(error)
             res.sendStatus(400);
         }
 
         else {
-            res.redirect('/suppliersStoresH');
+            res.redirect('/suppliersStoresH');              // Render the hbs file, and also send the renderer
         }
     })
 });
@@ -347,15 +357,15 @@ app.post('/update-supplierStore-form', function (req, res) {
 
     query1 = `UPDATE SupplierStoreInter SET supplierID = ${data['updateSupplier']}, storeID = ${data['updateStore']} WHERE supplierID = ${data['updateOriginalSuppplier']} AND storeID = ${data['updateOriginalStore']};`;
 
-    db.pool.query(query1, function (error, rows, fields) {
+    db.pool.query(query1, function (error, rows, fields) {  // Execute the query
 
-        if (error) {
+        if (error) {                                        // Error Handling
             console.log(error)
             res.sendStatus(400);
         }
 
         else {
-            res.redirect('/suppliersStoresH');
+            res.redirect('/suppliersStoresH');              // Render the hbs file, and also send the renderer
         }
     })
 })
@@ -367,15 +377,15 @@ app.post('/add-store-form', function (req, res) {
     query1 = `INSERT INTO  Stores (storeName, storeAddress, storePlanet)
                 VALUES ('${data['inputStoreName']}','${data['inputStoreAddress']}','${data['inputStorePlanet']}');`;
 
-    db.pool.query(query1, function (error, rows, fields) {
+    db.pool.query(query1, function (error, rows, fields) {   // Execute the query
 
-        if (error) {
+        if (error) {                                         // Error handling
             console.log(error)
             res.sendStatus(400);
         }
 
         else {
-            res.redirect('/storesH');
+            res.redirect('/storesH');                       // Render the hbs file, and also send the renderer
         }
     })
 })
@@ -387,15 +397,15 @@ app.post('/update-store-form', function (req, res) {
                 }, storeAddress = ${'\'' + data['updateStoreAddress'] + '\''}, storePlanet = ${'\'' + data['updateStorePlanet'] + '\''}
                 WHERE storeID = ${data['updateStoreID']};`;
     console.log(query1)
-    db.pool.query(query1, function (error, rows, fields) {
+    db.pool.query(query1, function (error, rows, fields) {  // Execute the query
 
-        if (error) {
+        if (error) {                                        // Error Handling
             console.log(error)
             res.sendStatus(400);
         }
 
-        else {
-            res.redirect('/storesH');
+        else { 
+            res.redirect('/storesH');                       // Render the hbs file, and also send the renderer
         }
     })
 })
@@ -405,15 +415,15 @@ app.post('/delete-store-form', function (req, res) {
 
     query1 = `DELETE FROM Stores WHERE storeID = ${data['deleteStoreID']};`
     console.log(query1)
-    db.pool.query(query1, function (error, rows, fields) {
+    db.pool.query(query1, function (error, rows, fields) {  // Execute the query 
 
-        if (error) {
+        if (error) {                                        // Error Handling
             console.log(error)
             res.sendStatus(400);
         }
 
         else {
-            res.redirect('/storesH');
+            res.redirect('/storesH');                       // Render the hbs file, and also send the renderer
         }
     })
 })
@@ -424,15 +434,15 @@ app.post('/add-supplier-form', function (req, res) {
     query1 = `INSERT INTO Suppliers (supplierName)
                 VALUES ('${data['inputSupplierName']}');`;
 
-    db.pool.query(query1, function (error, rows, fields) {
+    db.pool.query(query1, function (error, rows, fields) {  // Execute the query
 
-        if (error) {
+        if (error) {                                        // Error Handling
             console.log(error)
             res.sendStatus(400);
         }
 
         else {
-            res.redirect('/suppliersH');
+            res.redirect('/suppliersH');                    // Render the hbs file, and also send the renderer
         }
     })
 })
@@ -443,15 +453,15 @@ app.post('/update-supplier-form', function (req, res) {
     query1 = `UPDATE Suppliers SET supplierName = ${'\'' + data['updateSupplierName'] + '\''}
                 WHERE supplierID = ${data['updateSupplierID']};`;
     console.log(query1)
-    db.pool.query(query1, function (error, rows, fields) {
+    db.pool.query(query1, function (error, rows, fields) {  // Execute the query
 
-        if (error) {
+        if (error) {                                        // Error Handling
             console.log(error)
             res.sendStatus(400);
         }
 
         else {
-            res.redirect('/suppliersH');
+            res.redirect('/suppliersH');                    // Render the hbs file, and also send the renderer
         }
     })
 })
@@ -461,15 +471,15 @@ app.post('/delete-supplier-form', function (req, res) {
 
     query1 = `DELETE FROM Suppliers WHERE supplierID = ${data['deleteSupplierID']};`
     console.log(query1)
-    db.pool.query(query1, function (error, rows, fields) {
+    db.pool.query(query1, function (error, rows, fields) {  // Execute the query
 
-        if (error) {
+        if (error) {                                        // Error Handling
             console.log(error)
             res.sendStatus(400);
         }
 
         else {
-            res.redirect('/suppliersH');
+            res.redirect('/suppliersH');                    // Render the hbs file, and also send the renderer
         }
     })
 });
