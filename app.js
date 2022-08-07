@@ -325,6 +325,42 @@ app.post('/add-supplierStore-form', function (req, res) {
         }
     })
 })
+app.post('/delete-supplierStore-form', function (req, res) {
+
+    let data = req.body;
+
+    query1 = `DELETE FROM SupplierStoreInter WHERE supplierID = ${data['deleteSupplierID']} and storeID = ${data['deleteStoreID']};`
+    console.log(query1)
+    db.pool.query(query1, function (error, rows, fields) {
+
+        if (error) {
+            console.log(error)
+            res.sendStatus(400);
+        }
+
+        else {
+            res.redirect('/suppliersStoresH');
+        }
+    })
+});
+app.post('/update-supplierStore-form', function (req, res) {
+
+    let data = req.body;
+
+    query1 = `UPDATE SupplierStoreInter SET supplierID = ${data['updateSupplier']}, storeID = ${data['updateStore']} WHERE supplierID = ${data['updateOriginalSuppplier']} AND storeID = ${data['updateOriginalStore']};`;
+
+    db.pool.query(query1, function (error, rows, fields) {
+
+        if (error) {
+            console.log(error)
+            res.sendStatus(400);
+        }
+
+        else {
+            res.redirect('/suppliersStoresH');
+        }
+    })
+})
 
 app.post('/add-store-form', function (req, res) {
 
