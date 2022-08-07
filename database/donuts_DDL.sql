@@ -23,15 +23,13 @@ CREATE OR REPLACE TABLE Donuts (
     donutName varchar(50),
     donutDescription varchar(1000),
     donutPrice int NOT NULL,
-    supplierID int,
     PRIMARY KEY (donutID)
-    FOREIGN KEY (supplierID) REFERENCES Suppliers(supplierID)
 );
 
-INSERT INTO Donuts (donutID, donutName, donutDescription, donutPrice, supplierID)
- VALUES (1,'Chocolate Maple', 'Delectable chocolate and maple tree juice', 5, 1),
- (2, 'Pinneapple Squid', 'Pinneapple may not belong on pizza but it does belong with squid', 13, 2),
- (3, 'Oreo and Bacon', 'Crunchy oreo bites with the saltiness of even more crunchy bacon', 19, NULL);
+INSERT INTO Donuts (donutID, donutName, donutDescription, donutPrice)
+ VALUES (1,'Chocolate Maple', 'Delectable chocolate and maple tree juice', 5),
+ (2, 'Pinneapple Squid', 'Pinneapple may not belong on pizza but it does belong with squid', 13),
+ (3, 'Oreo and Bacon', 'Crunchy oreo bites with the saltiness of even more crunchy bacon', 19);
 
 CREATE OR REPLACE TABLE SupplierStoreInter (
     supplierID int NOT NULL,
