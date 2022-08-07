@@ -28,17 +28,17 @@ SELECT DonutName FROM Donuts;
 select count(DonutID) from Donuts;
 --DONUT CRUD
 -- create new donut
-INSERT INTO Donuts (donutName, donutDescription, donutPrice, donutSupplierID)
-    VALUES (:donutNameInput,:donutDescriptionInput, :donutPriceInput, :donutSupplierIDInput)
+INSERT INTO Donuts (donutName, donutDescription, donutPrice)
+    VALUES (:donutNameInput,:donutDescriptionInput, :donutPriceInput)
 -- get all donuts
 SELECT * FROM Donuts
 -- select certain donut
-SELECT donutID, donutName, donutDescription, donutPrice, donutSupplierID
+SELECT donutID, donutName, donutDescription, donutPrice
     FROM Donuts 
     WHERE donutID = :Selected_Donut_Edit_ID
 -- update certain donut
 UPDATE Donuts
-    SET donutName = :Donut_Name_Input, donutDescription = :Donut_Description_Input, donutPrice = :Donut_Price_Input, donutSupplierID = :Donut_SupplierID_Input
+    SET donutName = :Donut_Name_Input, donutDescription = :Donut_Description_Input, donutPrice = :Donut_Price_Input
     WHERE donutID = :Update_Donut_ID
 -- delete donut
 DELETE FROM Donuts WHERE donutID = :Delete_Donut_ID
