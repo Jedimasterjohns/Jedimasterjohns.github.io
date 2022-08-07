@@ -43,11 +43,13 @@ app.get('/', function (req, res) {
 
 app.get('/donutsH', function (req, res) {
     console.log("hi")
-    let query1 = "SELECT * FROM Donuts;";               // Define our query
+    let query1 = "SELECT * FROM Donuts;";            // Define our query
+    let query2 = "SELECT Suppliers.supplierID, Suppliers.supplierName FROM Donuts JOIN Suppliers ON Donuts.supplierID = Suppliers.supplierID";
 
-    db.pool.query(query1, function (error, rows, fields) {    // Execute the query
-
-        res.render('donutsH', { data: rows });                  // Render the index.hbs file, and also send the renderer
+    db.pool.query(query1, function (error, q1, fields) {    // Execute the query
+        db.pool.query(query2, (error, q2, fields) => {
+            es.render('ordersH', { rows: q1, supplierData: q2 });                  // Render the index.hbs file, and also send the renderer               
+        })
     })
     // Note the call to render() and not send(). Using render() ensures the templating engine
 });

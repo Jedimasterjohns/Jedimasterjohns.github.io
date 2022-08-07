@@ -39,6 +39,7 @@
             document.getElementById('name-update').value = pid[1]
             document.getElementById('description-update').value = pid[2]
             document.getElementById('price-update').value = pid[3]
+            document.getElementById('supplierID-update').value = pid[4]
         }
         function deleteDonut(pid) {
             showform('delete');
@@ -80,12 +81,13 @@
                             {{#each data}}
 
                             <tr>
-                                <td><a href="#" onClick="updateDonut([{{this.donutID}},'{{this.donutName}}','{{this.donutDescription}}','{{this.donutPrice}}'])">Edit</a></td>
+                                <td><a href="#" onClick="updateDonut([{{this.donutID}},'{{this.donutName}}','{{this.donutDescription}}','{{this.donutPrice}}','{{this.supplierID}}','{{this.supplierName}}'])">Edit</a></td>
                                 <td><a href="#" onclick="deleteDonut([{{this.donutID}},'{{this.donutName}}','{{this.donutDescription}}','{{this.donutPrice}}'])">Delete</a></td>
                                 <td>{{this.donutID}}</td>
                                 <td>{{this.donutName}}</td>
                                 <td>{{this.donutDescription}}</td>
                                 <td>{{this.donutPrice}}</td>
+                                <td>{{this.donutSupplierName}}</td>
                             </tr>
                             {{/each}}
                         </tbody>
@@ -108,6 +110,14 @@
 
                         <label> Price </label>
                         <input type="text" name="insert-price" id="insert-price">
+
+                        <label> Supplier </label>
+                        <select name="insert-supplier" id="insert-supplier">
+                            <option value="">Select Supplier</option>
+                            {{#each supplierData}}
+                                <option value="{{this.supplierID}}">{{this.supplierName}}({{this.supplierID}})</option>
+                            {{/each}}
+                        </select>
                     </fieldset>
                     <input class="btn btn-primary shadow-none" type="submit" id="addDonut" value="Add Donut">
                     <input class="btn btn-primary shadow-none" type="button" value="cancel" onClick="browse()">
@@ -129,7 +139,14 @@
 
                         <label> Price </label>
                         <input type="text" name="price-update" id="price-update" value="">
-
+                        
+                        <label> Supplier </label>
+                        <select name="supplier-update" id="supplier-update">
+                            <option value="">Select Supplier</option>
+                            {{#each supplierData}}
+                            <option value="{{this.supplierID}}">{{this.supplierName}}({{this.supplierID}})</option>
+                            {{/each}}
+                        </select>
                     </fieldset>
                     <input class="btn btn-primary shadow-none" type="submit" id="UpdateSaveDonut" value="Save Update Donut">
                     <input class="btn btn-primary shadow-none" type="button" value="cancel" onClick="browse()">
