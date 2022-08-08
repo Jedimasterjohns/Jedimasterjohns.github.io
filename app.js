@@ -31,15 +31,14 @@ app.set('view engine', '.hbs');                 // Tell express to use the handl
 
 app.get('/', function (req, res) {
     
-    console.log("hi")
-    let query1 = "SELECT * FROM Customers;";               // Define our query
+        res.render('home');
 
-    db.pool.query(query1, function (error, rows, fields) {    // Execute the query
+});
+app.get('/home', function (req, res) {
 
-        res.render('customersH', { data: rows });                  // Render the hbs file, and also send the renderer
-    })
-    // Note the call to render() and not send(). Using render() ensures the templating engine
-});                                         // will process this file, before sending the finished HTML to the client.
+    res.render('home');
+
+});
 
 app.get('/donutsH', function (req, res) {
     console.log("hi")
