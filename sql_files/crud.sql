@@ -1,4 +1,3 @@
-/*
 --CUSTOMER FUNCTIONS
 select count(customerID) from Customers;
 --CUSTOMER CRUD
@@ -18,9 +17,9 @@ UPDATE Customers
     WHERE customerID = :Update_Character_ID
 -- Delete Customer (Delete)
 DELETE FROM Customers WHERE customerID = :Delete_Customer_ID
-*/
 
-/*
+
+
 --DONUT FUNCTIONS
 --get all names
 SELECT DonutName FROM Donuts;
@@ -42,24 +41,26 @@ UPDATE Donuts
     WHERE donutID = :Update_Donut_ID
 -- delete donut
 DELETE FROM Donuts WHERE donutID = :Delete_Donut_ID
-*/
 
 
 
-/*
 --ORDER FUNCTIONS
 --get total money from certain order
 select Donuts.donutPrice*Orders.totalPurchased as total FROM Orders INNER JOIN Donuts ON Orders.donutID = Donuts.donutID WHERE OrderID = :Get_Total_Order_Money;
 --get total money for all orders
 select Sum(Donuts.donutPrice*Orders.totalPurchased) as total FROM Orders INNER JOIN Donuts ON Orders.donutID = Donuts.donutID;
+--ORDER CRUD
 -- delete order
 DELETE FROM Orders WHERE orderID = :Delete_Order_ID;
 -- new order
 INSERT INTO Orders (customerID,donutID,storeID,totalPurchased)
     VALUES (:Order_CustomerID_Input,:Order_DonutID_Input,:Order_StoreID_Input,:Order_TotalPurchased_Input);
-*/
+-- get orders and display donut and store names
+SELECT Orders.* , Customers.customerFName, Donuts.donutName, Stores.storeName From Orders JOIN Customers ON Orders.customerID = Customers.customerID LEFT JOIN Donuts ON Orders.donutID = Donuts.donutID JOIN Stores ON Orders.storeID = Stores.storeID;
 
-/*
+
+
+
 --STORE FUNCTION
 --get what suppliers supply to this store
 SELECT Suppliers.supplierName FROM Suppliers
@@ -76,14 +77,13 @@ SELECT storeID, storeName, storeAddress, storePlanet
     WHERE storeID = :Select_Certain_Store_ID;
 --update store (NEEDS FIX FOR SUPPLIERID CHANGE)
 UPDATE Stores
-    SET storeName = :Store_Name_Change, storeAddress = :Store_Address_Change, storePlanet = :Store_Planet_Change
-    WHERE storeID = :Update_Store_ID;
+    UPDATE SupplierStoreInter SET supplierID = updateSupplier, storeID = updateStore}
+     WHERE supplierID = updateOriginalSuppplier AND storeID = updateOriginalStore;
 --delete store
 DELETE FROM Stores WHERE storeID = :Delete_Store_ID
-*/
 
 
-/*
+
 --SUPPLIER FUNCTIONS
 --get what stores supplier supplies to
 SELECT Stores.storeName FROM Stores
@@ -105,9 +105,9 @@ UPDATE Suppliers
     WHERE SupplierID = :Update_SupplierID;
 --delete supplier
 DELETE FROM Suppliers Where supplierID = :Delete_Supplier_ID;
-*/
 
-/*
+
+
 --SupplierStoreInter FUNCTIONS
 --see all suppliers and stores ID
 select * from SupplierStoreInter Order by supplierID ASC;
@@ -127,6 +127,4 @@ UPDATE SupplierStoreInter SET storeID = :Selected_Store, supplierID = :New_Suppl
 --delete a connection
 
 DELETE FROM SupplierStoreInter Where supplierID = :Selected_SupplierID AND storeID = :Selected_StoreID;
-
-*/
 
